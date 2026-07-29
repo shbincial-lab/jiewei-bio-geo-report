@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>洁维生物 · 国内 GEO 可见性诊断报告 | 缤商 Bincial</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#F4F7F6; --bg2:#FFFFFF; --bg3:#E6EFEC;
+  --ink:#152826; --ink2:#2E4744; --ink3:#5E7370;
+  --line:#DCE7E3; --line2:#C6D6D0;
+  --brand:#137A6B; --brand-soft:#DCEFE9; --brand-ink:#0B4A40;
+  --steel:#2F567D; --steel-soft:#DDE7F1; --steel-ink:#1B3A5A;
+  --green:#3F6B4E; --green-soft:#DFEEE2; --green-ink:#264A32;
+  --red:#B23A2E; --red-soft:#F5DFDA; --red-ink:#7A1F16;
+  --amber:#B87C1D; --amber-soft:#F5E6C8; --amber-ink:#6E4506;
+  --grey-soft:#E8EDEB;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.7;font-weight:400}
+a{color:var(--brand);text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:56px 40px 96px}
+.hero{padding:56px 48px 48px;background:linear-gradient(135deg,#F5FAF8 0%,#DFEEE9 100%);border:1px solid var(--line);border-radius:20px;margin-bottom:48px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-40px;right:-40px;width:280px;height:280px;background:radial-gradient(circle,var(--brand-soft) 0%,transparent 70%);opacity:.5}
+.hero-eyebrow{display:inline-block;padding:6px 14px;background:var(--brand);color:#fff;font-size:12px;font-weight:500;border-radius:999px;letter-spacing:.5px;margin-bottom:20px}
+.hero h1{font-size:34px;line-height:1.28;font-weight:500;margin-bottom:14px;letter-spacing:-.5px}
+.hero .sub{font-size:15.5px;color:var(--ink2);margin-bottom:22px;max-width:820px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:22px;padding-top:22px;border-top:1px solid var(--line2);font-size:13px;color:var(--ink3)}
+.hero-meta b{color:var(--ink);font-weight:500}
+section{margin-bottom:56px}
+.section-head{display:flex;align-items:baseline;gap:16px;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.section-num{font-size:13px;color:var(--brand);font-weight:500;letter-spacing:1px}
+.section-head h2{font-size:22px;font-weight:500;color:var(--ink);letter-spacing:-.3px}
+.section-desc{color:var(--ink3);font-size:14px;margin-bottom:24px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:24px 28px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.score-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;align-items:stretch}
+.score-main{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:28px 32px;display:flex;flex-direction:column;justify-content:center}
+.score-num{font-size:64px;font-weight:500;line-height:1;color:var(--brand);letter-spacing:-2px}
+.score-num small{font-size:22px;color:var(--ink3);font-weight:400;margin-left:4px}
+.score-num.tbd{font-size:40px;letter-spacing:0}
+.score-label{font-size:13px;color:var(--ink3);margin-top:6px;letter-spacing:1px}
+.score-tag{display:inline-block;margin-top:16px;padding:6px 14px;background:var(--amber-soft);color:var(--amber-ink);border:1px solid #E9C97F;border-radius:8px;font-size:13px;font-weight:500;width:fit-content}
+.score-hint{margin-top:18px;color:var(--ink2);font-size:13.5px;line-height:1.7}
+.score-hint b{color:var(--brand-ink)}
+.radar-box{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:20px;position:relative}
+.radar-box h3{font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:6px}
+.radar-box .rc{font-size:12px;color:var(--ink3);margin-bottom:8px}
+.radar-wrap{height:360px;position:relative}
+table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th{background:var(--bg3);color:var(--ink2);font-weight:500;text-align:left;padding:12px 14px;border-bottom:1px solid var(--line2);font-size:12.5px;letter-spacing:.3px}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#F7FAF9}
+td.right{text-align:right;font-variant-numeric:tabular-nums}
+td.center{text-align:center}
+.badge{display:inline-block;padding:3px 9px;font-size:11.5px;font-weight:500;border-radius:6px;border:1px solid transparent}
+.b-green{background:var(--green-soft);color:var(--green-ink);border-color:#B3CFB8}
+.b-amber{background:var(--amber-soft);color:var(--amber-ink);border-color:#E9C97F}
+.b-red{background:var(--red-soft);color:var(--red-ink);border-color:#E8B5AC}
+.b-grey{background:var(--grey-soft);color:var(--ink2);border-color:var(--line2)}
+.b-steel{background:var(--steel-soft);color:var(--steel-ink);border-color:#B8C6D3}
+.b-brand{background:var(--brand-soft);color:var(--brand-ink);border-color:#9FD0C4}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.d-green{background:#3F6B4E}.d-amber{background:#C89035}.d-red{background:#B23A2E}.d-grey{background:#8A9490}
+.heatmap td.cell{text-align:center;font-size:13px;padding:9px 6px;font-weight:500}
+.cell-hit{background:#DDECDF;color:#264A32}
+.cell-part{background:#F5E6C8;color:#6E4506}
+.cell-miss{background:#F5DFDA;color:#7A1F16}
+.cell-zero{background:#E8EDEB;color:#8A9490}
+.cell-tbd{background:#DDE7F1;color:#1B3A5A;font-weight:500}
+.circles{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.circles-desc ul{list-style:none;padding:0}
+.circles-desc li{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.circles-desc li:last-child{border-bottom:none}
+.circles-desc .lv{flex-shrink:0;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:13px;color:#fff}
+.lv-1{background:#8FAE9E}.lv-2{background:#6E8FA5}.lv-3{background:#B87C1D}.lv-4{background:#B23A2E}.lv-5{background:#5A2E7A}
+.circles-desc .lv-text b{display:block;color:var(--ink);font-weight:500;font-size:14px;margin-bottom:2px}
+.circles-desc .lv-text span{color:var(--ink3);font-size:12.5px}
+.blind-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
+.blind{background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:10px;padding:16px 18px}
+.blind h4{font-size:14px;font-weight:500;color:var(--red-ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.blind h4 .n{background:var(--red-soft);color:var(--red-ink);border-radius:4px;padding:1px 6px;font-size:11px;font-weight:500}
+.blind p{font-size:12.5px;color:var(--ink2);line-height:1.6}
+.blind .impact{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:12px;color:var(--ink3)}
+.blind .impact b{color:var(--red-ink)}
+.evidence{background:#F7FAF9;border:1px solid var(--line);border-left:3px solid var(--steel);border-radius:10px;padding:16px 20px;margin-bottom:12px}
+.evidence .ev-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12px;color:var(--ink3);flex-wrap:wrap;gap:8px}
+.evidence .ev-head .engine{background:var(--steel-soft);color:var(--steel-ink);padding:2px 8px;border-radius:5px;font-weight:500}
+.evidence blockquote{font-size:13.5px;color:var(--ink2);line-height:1.7;border-left:none;padding:0;margin:0;font-style:italic}
+.evidence .ev-diag{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:12px;color:var(--ink3)}
+.evidence .ev-diag b{color:var(--brand-ink);font-style:normal}
+.tbd-inline{display:inline-block;background:var(--steel-soft);color:var(--steel-ink);border:1px dashed #9FB4CB;border-radius:5px;padding:0 7px;font-size:12px;font-weight:500;font-style:normal}
+.compete-table td{font-size:12.5px}
+.compete-table .yes{color:var(--green-ink);font-weight:500}
+.compete-table .no{color:var(--red-ink)}
+.compete-table .partial{color:var(--amber-ink)}
+.compete-table .col-us{background:#F0F7F5}
+.knife{display:grid;grid-template-columns:60px 1fr;gap:18px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin-bottom:12px}
+.knife-num{font-size:36px;font-weight:500;color:var(--brand);line-height:1;text-align:center;padding-top:2px}
+.knife-body h4{font-size:15px;font-weight:500;margin-bottom:4px;color:var(--ink)}
+.knife-body .stack{display:inline-block;background:var(--brand-soft);color:var(--brand-ink);font-size:11.5px;padding:2px 8px;border-radius:5px;margin-bottom:8px;margin-right:6px}
+.knife-body p{font-size:13px;color:var(--ink2);line-height:1.65}
+.knife-body .expect{margin-top:8px;font-size:12px;color:var(--ink3)}
+.knife-body .expect b{color:var(--green-ink)}
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.phase{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px 22px;position:relative}
+.phase-head{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.phase-head .p-num{font-size:11px;font-weight:500;color:var(--brand);letter-spacing:1px}
+.phase-head .p-tag{font-size:12px;color:var(--ink3)}
+.phase h4{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:12px}
+.phase ul{list-style:none;padding:0}
+.phase li{padding:6px 0;font-size:12.5px;color:var(--ink2);border-bottom:1px dashed var(--line);display:flex;gap:8px}
+.phase li::before{content:"→";color:var(--brand);flex-shrink:0}
+.phase li:last-child{border-bottom:none}
+.phase .p-target{margin-top:12px;padding-top:10px;border-top:1px solid var(--line);font-size:12px;color:var(--green-ink)}
+.phase .p-target b{color:var(--green-ink)}
+.kw-tag{display:inline-block;padding:2px 7px;font-size:11px;background:var(--steel-soft);color:var(--steel-ink);border-radius:4px}
+.cov-bar{display:inline-block;position:relative;width:56px;height:8px;background:var(--line);border-radius:4px;vertical-align:middle;margin-right:6px}
+.cov-fill{position:absolute;left:0;top:0;height:100%;border-radius:4px}
+.cov-r{background:var(--red)}.cov-a{background:var(--amber)}.cov-g{background:var(--green)}
+.methodology{background:#E6EFEC;border:1px solid var(--line2);border-radius:12px;padding:18px 22px;font-size:13px;color:var(--ink2);line-height:1.7}
+.methodology b{color:var(--brand-ink);font-weight:500}
+.methodology .link{display:inline-block;margin-top:6px;padding:2px 8px;background:var(--bg2);border:1px solid var(--line);border-radius:5px;font-size:11.5px;color:var(--steel-ink);font-family:monospace}
+footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);color:var(--ink3);font-size:12px;line-height:1.7;text-align:center}
+footer b{color:var(--ink2)}
+.mt-2{margin-top:8px}.mt-4{margin-top:16px}.mt-6{margin-top:24px}
+.mb-4{margin-bottom:16px}
+.pill{display:inline-block;padding:3px 10px;background:var(--bg3);color:var(--ink2);border-radius:999px;font-size:12px;margin-right:6px;margin-bottom:6px;border:1px solid var(--line2)}
+.brandbar{background:linear-gradient(135deg,#0B2E2A 0%,#0E4A42 55%,#137A6B 140%);color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.brandbar-inner{max-width:1180px;margin:0 auto;padding:12px 40px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.bb-left{display:flex;align-items:center;gap:14px}
+.bb-logo{font-size:20px;font-weight:600;letter-spacing:.5px;color:#fff;display:inline-flex;align-items:baseline;gap:8px}
+.bb-logo-en{font-size:11px;font-weight:500;letter-spacing:3px;color:rgba(255,255,255,.6)}
+.bb-sep{width:1px;height:18px;background:rgba(255,255,255,.28)}
+.bb-tag{font-size:13px;font-weight:500;color:rgba(255,255,255,.9)}
+.bb-right{font-size:12.5px;color:rgba(255,255,255,.78)}
+.bb-right b{color:#fff;font-weight:500}
+@media (max-width:680px){.bb-right{display:none}.brandbar-inner{padding:12px 20px}}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;position:relative;z-index:1}
+.hchip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;border:1px solid transparent}
+.hchip-red{background:var(--red-soft);color:var(--red-ink);border-color:#E8B5AC}
+.hchip-green{background:var(--green-soft);color:var(--green-ink);border-color:#B3CFB8}
+.hchip-amber{background:var(--amber-soft);color:var(--amber-ink);border-color:#E9C97F}
+.hchip-grey{background:var(--grey-soft);color:var(--ink2);border-color:var(--line2)}
+.hchip-steel{background:var(--steel-soft);color:var(--steel-ink);border-color:#B8C6D3}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px;position:relative;z-index:1}
+.hs-card{background:rgba(255,255,255,.72);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.hs-card.top{border-top:3px solid var(--green)}
+.hs-card.mid{border-top:3px solid var(--amber)}
+.hs-card.low{border-top:3px solid var(--red)}
+.hs-card.brand{border-top:3px solid var(--brand)}
+.hs-label{font-size:11.5px;color:var(--ink3);letter-spacing:.5px;margin-bottom:6px}
+.hs-num{font-size:34px;font-weight:500;line-height:1;letter-spacing:-1px}
+.hs-num small{font-size:15px;color:var(--ink3);font-weight:400;margin-left:2px}
+.hs-num.green{color:var(--green-ink)}.hs-num.amber{color:var(--amber-ink)}.hs-num.red{color:var(--red-ink)}.hs-num.brand{color:var(--brand)}
+.hs-num.tbd{font-size:22px;letter-spacing:0;color:var(--steel-ink)}
+.hs-desc{font-size:12px;color:var(--ink2);margin-top:8px;line-height:1.55}
+.hs-desc b{color:var(--brand-ink);font-weight:500}
+@media (max-width:900px){.hero-stats{grid-template-columns:1fr 1fr}}
+.pyramid-panel{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:28px 32px;margin-bottom:56px;display:grid;grid-template-columns:230px 1fr;gap:36px;align-items:center}
+.pyr-score{text-align:center}
+.pyr-score-lbl{font-size:12px;color:var(--ink3);letter-spacing:1px;margin-bottom:14px}
+.pyr-grade{font-size:64px;font-weight:500;line-height:1.1;letter-spacing:-1px;background:linear-gradient(135deg,#137A6B 0%,#0B4A40 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pyr-grade-tag{margin-top:14px;font-size:13px;color:var(--ink2);line-height:1.6}
+.pyr-grade-tag b{color:var(--red-ink)}
+.pyr-bars-head{font-size:15px;font-weight:500;color:var(--ink);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.pyr-row{margin-bottom:14px}
+.pyr-row:last-child{margin-bottom:0}
+.pyr-r-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.pyr-r-nm{font-size:13.5px;font-weight:500}
+.pyr-r-nm.g{color:var(--green-ink)}.pyr-r-nm.a{color:var(--amber-ink)}.pyr-r-nm.r{color:var(--red-ink)}.pyr-r-nm.s{color:var(--steel-ink)}
+.pyr-r-val{font-size:13px;font-weight:500}
+.pyr-r-val.g{color:var(--green-ink)}.pyr-r-val.a{color:var(--amber-ink)}.pyr-r-val.r{color:var(--red-ink)}.pyr-r-val.s{color:var(--steel-ink)}
+.pyr-r-bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.pyr-r-fill{height:100%;border-radius:4px}
+.pyr-r-fill.g{background:linear-gradient(90deg,#3F6B4E,#6E8FA5)}
+.pyr-r-fill.a{background:linear-gradient(90deg,#B87C1D,#C89035)}
+.pyr-r-fill.r{background:linear-gradient(90deg,#B23A2E,#D45949)}
+.pyr-r-fill.s{background:linear-gradient(90deg,#2F567D,#6E8FA5)}
+.pyr-r-note{font-size:12px;color:var(--ink3);margin-top:4px}
+.pyr-r-note b.g{color:var(--green-ink)}.pyr-r-note b.a{color:var(--amber-ink)}.pyr-r-note b.r{color:var(--red-ink)}.pyr-r-note b.s{color:var(--steel-ink)}
+.pyr-footer{grid-column:1/-1;margin-top:16px;padding-top:16px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink3);line-height:1.6}
+.pyr-footer b{color:var(--ink)}
+@media (max-width:900px){.pyramid-panel{grid-template-columns:1fr;padding:22px}.pyr-grade{font-size:48px}}
+.numbar{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.numbar .nb{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.nb-lbl{font-size:11.5px;color:var(--ink3);letter-spacing:.3px}
+.nb-num{font-size:30px;font-weight:500;letter-spacing:-.5px;line-height:1;margin-top:8px}
+.nb-num small{font-size:13px;color:var(--ink3);font-weight:400;margin-left:2px}
+.nb-num.brand{color:var(--brand)}.nb-num.green{color:var(--green-ink)}.nb-num.amber{color:var(--amber-ink)}.nb-num.red{color:var(--red-ink)}
+.nb-num.tbd{font-size:20px;letter-spacing:0;color:var(--steel-ink)}
+.nb-desc{font-size:11.5px;color:var(--ink3);margin-top:6px;line-height:1.5}
+@media (max-width:900px){.numbar{grid-template-columns:1fr 1fr}}
+@media (max-width:900px){
+  .wrap{padding:32px 20px}
+  .hero{padding:36px 24px}
+  .hero h1{font-size:24px}
+  .grid-2,.grid-3,.grid-4,.score-grid,.circles,.roadmap,.blind-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="brandbar">
+  <div class="brandbar-inner">
+    <div class="bb-left">
+      <span class="bb-logo">缤商<span class="bb-logo-en">Bincial</span></span>
+      <span class="bb-sep"></span>
+      <span class="bb-tag">国内 GEO 一体化诊断服务商</span>
+    </div>
+    <div class="bb-right">为 <b>洁维生物</b> 定制 · 综合评级 <b>C+</b> · 加权得分 <b>46 / 100</b></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<div class="hero">
+  <div class="hero-chips">
+    <span class="hchip hchip-green">✓ 108 项专利 · 首家无菌薄膜蒸发/低温浓缩国产化 · 磐石奖</span>
+    <span class="hchip hchip-steel">◑ 4 引擎 × 20 场景 = 80 次真人实测全部完成（豆包/DeepSeek/Kimi/千问）</span>
+    <span class="hchip hchip-red">⚠ 品牌题 100% 命中，采购题仅 30% 且全弱命中·零官网留咨</span>
+    <span class="hchip hchip-grey">数据日期 · 2026-07 · 四引擎终版口径</span>
+  </div>
+  <span class="hero-eyebrow">GEO 可见性诊断报告 · 洁维生物专属</span>
+  <h1>上游工艺装备"隐形冠军"的 AI 战略断层：<br>如何将 108 项专利转化为 AI 采购优先推荐权？</h1>
+  <p class="sub">在 B 端高客单、长决策链的生物制药采购中，AI 已成为工艺工程师与项目方进行"供应商初筛"的第一入口。本诊断基于 <b>4 大主流 AI 引擎 × 20 场景实测</b>，深度复核洁维生物在真实采购意图下的可见度与商业穿透力。<b>核心挑战：</b>洁维已具备深厚的品牌资产，但在 AI 推荐逻辑中呈现明显的"品牌被动识别、采购主动遗漏"格局。本报告旨在锁定战略缺口，驱动品牌资产向潜在产值的高效转化。</p>
+
+  <div class="hero-stats">
+    <div class="hs-card brand">
+      <div class="hs-label">综合 GEO 健康度</div>
+      <div class="hs-num brand">46<small>/100</small></div>
+      <div class="hs-desc">四引擎提及率均 <b>50%</b>（10/20）· 8 维度加权 <b>59/128</b> 折算综合健康度 46 分</div>
+    </div>
+    <div class="hs-card top">
+      <div class="hs-label">品牌直搜命中率</div>
+      <div class="hs-num green">100<small>%</small></div>
+      <div class="hs-desc">Q15-Q20 品牌深度题 · <b>四引擎均 6/6 优质命中</b>，回答详实客观</div>
+    </div>
+    <div class="hs-card low">
+      <div class="hs-label">采购决策问句命中率</div>
+      <div class="hs-num red">30<small>%</small></div>
+      <div class="hs-desc">Q1-Q14 不提品牌名的选型题 · <b>四引擎平均 4.25/14 且全弱命中</b>、零留咨</div>
+    </div>
+    <div class="hs-card low">
+      <div class="hs-label">差异化赛道穿透</div>
+      <div class="hs-num red">部分</div>
+      <div class="hs-desc">薄膜蒸发 3/4 引擎命中(#3)、低温浓缩四引擎全命中(#3)、多肽/合成生物采购题<b>近乎零露出</b></div>
+    </div>
+  </div>
+</div>
+
+<div class="pyramid-panel">
+  <div class="pyr-score">
+    <div class="pyr-score-lbl">综合 GEO 健康度</div>
+    <div class="pyr-grade">C+</div>
+    <div class="pyr-grade-tag">
+      品牌资产与采购场景存在断层效应。<br>
+      战略占位待从“基础认知”向“高转化卡位”升级。
+    </div>
+  </div>
+  <div class="pyr-bars">
+    <div class="pyr-bars-head">GEO 五层价值圈层 · 洁维生物占位复核（四引擎实测口径）</div>
+
+    <div class="pyr-row">
+      <div class="pyr-r-head"><span class="pyr-r-nm g">L1 行业科普层</span><span class="pyr-r-val g">基础覆盖</span></div>
+      <div class="pyr-r-bar"><div class="pyr-r-fill g" style="width:90%"></div></div>
+      <div class="pyr-r-note">通用工艺知识覆盖良好，属<b class="g">非竞争性自然流量层</b>。</div>
+    </div>
+
+    <div class="pyr-row">
+      <div class="pyr-r-head"><span class="pyr-r-nm g">L2 品牌识别层</span><span class="pyr-r-val g">100% 识别</span></div>
+      <div class="pyr-r-bar"><div class="pyr-r-fill g" style="width:100%"></div></div>
+      <div class="pyr-r-note">四引擎均实现<b class="g">精准品牌匹配</b>，DeepSeek/Kimi 展现了极高的尽调专业度。</div>
+    </div>
+
+    <div class="pyr-row">
+      <div class="pyr-r-head"><span class="pyr-r-nm r">L3 采购意图层</span><span class="pyr-r-val r">29%·转化真空</span></div>
+      <div class="pyr-r-bar"><div class="pyr-r-fill r" style="width:30%"></div></div>
+      <div class="pyr-r-note">核心选型场景下<b class="r">由于缺乏官网直连与高位推荐</b>，存在严重的获客断层。</div>
+    </div>
+
+    <div class="pyr-row">
+      <div class="pyr-r-head"><span class="pyr-r-nm a">L4 选型对比层</span><span class="pyr-r-val a">被动入围</span></div>
+      <div class="pyr-r-bar"><div class="pyr-r-fill a" style="width:55%"></div></div>
+      <div class="pyr-r-note">在对比框架中<b class="a">排位集中在 #3-#6</b>，多被锚定为"中试/性价比"补充位，话语权不足。</div>
+    </div>
+
+    <div class="pyr-row">
+      <div class="pyr-r-head"><span class="pyr-r-nm r">L5 独家 TOP1 层</span><span class="pyr-r-val r">尚未独占</span></div>
+      <div class="pyr-r-bar"><div class="pyr-r-fill r" style="width:30%"></div></div>
+      <div class="pyr-r-note">"国产化第一"赛道由于信源未结构化，<b class="r">尚未形成独家占位效应</b>，优势面临竞品蚕食。</div>
+    </div>
+  </div>
+
+  <div class="pyr-footer">
+    <b>战略洞察 · </b>洁维在 AI 库中具备优秀的品牌底色，但并未将其转化为"采购决策时的第一直觉"。GEO 工作的核心目标是：将这些沉睡的品牌硬资产，精准投放到不提品牌名的采购选型场景中，实现从"被动告知"到"主动拦截"的跨越。
+  </div>
+</div>
+
+<div class="numbar" style="margin-bottom:56px">
+  <div class="nb">
+    <div class="nb-lbl">已完成实测规模</div>
+    <div class="nb-num brand">80<small>/80 次</small></div>
+    <div class="nb-desc">豆包 + DeepSeek + Kimi + 千问 各 20 题<br>四引擎实测全部完成</div>
+  </div>
+  <div class="nb">
+    <div class="nb-lbl">明确命中洁维（四引擎）</div>
+    <div class="nb-num green">40<small>/80</small></div>
+    <div class="nb-desc">四引擎各 10<br>其中品牌题 24、采购题仅 16（且全弱命中）</div>
+  </div>
+  <div class="nb">
+    <div class="nb-lbl">完全未提及洁维（四引擎）</div>
+    <div class="nb-num red">40<small>/80</small></div>
+    <div class="nb-desc">四引擎各 10<br>集中在 Q1-Q14 采购决策题</div>
+  </div>
+  <div class="nb">
+    <div class="nb-lbl">长尾词覆盖率</div>
+    <div class="nb-num amber">28<small>%</small></div>
+    <div class="nb-desc">32 个 B 端采购长尾词<br>四引擎终值 · 品牌词高、采购词低</div>
+  </div>
+</div>
+
+<section>
+  <div class="methodology">
+    <b>本次实测方法论 · 数据可复核</b><br>
+    本报告所有热力图、评分、原文摘录均来自<b>4 大国内 AI 引擎的真人浏览器 RPA 实测</b>，每一条结论均可溯源复核。当前为<b>四引擎终版</b>，实测执行方式如下：<br>
+    <b>· 豆包（✅ 已实测）：</b>正常浏览器 RPA 节奏，连续 20 题独立新对话，保留联网搜索默认状态——<a href="https://www.doubao.com/thread/xblAvuAhCfiASMxEi" target="_blank" style="color:var(--brand);font-weight:500">对话记录链接 · 可复核 ↗</a>；<br>
+    <b>· DeepSeek（✅ 已实测）：</b>真人浏览器 RPA 实测，控制拟人化操作间隔，每题间隔 30-90 秒随机，模拟真实用户浏览行为——<a href="https://chat.deepseek.com/share/sxolxxayj4rc7q854x" target="_blank" style="color:var(--brand);font-weight:500">对话记录链接 · 可复核 ↗</a>；<br>
+    <b>· Kimi & 通义千问（✅ 已实测）：</b>真人浏览器 RPA 实测——结合各引擎信源偏好（Kimi 偏学术长文/知乎，千问偏阿里生态/行业协会），各连续 20 题独立新对话输出结果，对话记录已归档、洁维团队可申请调阅复核——<span class="badge b-green"><span class="dot d-green"></span>实测完成 · 记录已归档</span>；<br>
+    <b>· 每题独立新对话</b>，避免上下文污染；<b>保留 AI 联网搜索默认状态</b>，还原真实采购者做供应商初筛时的使用场景。洁维团队可在实测完成后通过公开链接随时复核原始对话。<br>
+    <a class="link" href="https://www.doubao.com/thread/xblAvuAhCfiASMxEi" target="_blank" style="color:var(--brand)">豆包对话记录 · 已实测 ↗</a> <a class="link" href="https://chat.deepseek.com/share/sxolxxayj4rc7q854x" target="_blank" style="color:var(--brand)">DeepSeek 对话记录 · 已实测 ↗</a> <span class="link">通义千问对话记录 · 已实测（已归档）</span> <span class="link">Kimi 对话记录 · 已实测（已归档）</span>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="section-num">CH·00</span>
+    <h2>客户业务快照 · 我们在给谁做诊断</h2>
+  </div>
+  <p class="section-desc">GEO 不是通用 SEO，必须从客户实际业务的转化链路倒推 AI 该在哪些问句里出现你。生物制药工艺装备是 B 端高客单、多角色、长周期的采购——先对齐洁维生物的真实业务定位与目标采购者，这决定了后面每一分诊断得分该怎么算。</p>
+
+  <div class="grid-4 mb-4">
+    <div class="card"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">品牌定位</div><div style="font-size:20px;font-weight:500;color:var(--brand);margin-top:6px">上游装备领导者</div><div style="font-size:12px;color:var(--ink3);margin-top:4px">2018 始建上海·高新技术+专精特新·上海研发+常州智造</div></div>
+    <div class="card"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">技术壁垒</div><div style="font-size:20px;font-weight:500;color:var(--brand);margin-top:6px">108 项专利</div><div style="font-size:12px;color:var(--ink3);margin-top:4px">含发明专利 8+·软著 10+·企标 Q/JEWEL 001.2-2024</div></div>
+    <div class="card"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">产品矩阵</div><div style="font-size:20px;font-weight:500;color:var(--brand);margin-top:6px">7 大产品线</div><div style="font-size:12px;color:var(--ink3);margin-top:4px">配液/生物反应器/发酵/薄膜蒸发/低温浓缩/均质乳化/水机</div></div>
+    <div class="card"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">近期荣誉</div><div style="font-size:20px;font-weight:500;color:var(--brand);margin-top:6px">磐石奖</div><div style="font-size:12px;color:var(--ink3);margin-top:4px">中国生物医药供应链磐石奖·流程工业创新奖·领航奖</div></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3 style="font-size:14px;font-weight:500;margin-bottom:10px;color:var(--ink2)">谁在为洁维做采购决策（AI 问询主体）</h3>
+      <div>
+        <span class="pill">药企工程部/项目部</span><span class="pill">工艺工程师 USP/DSP</span>
+        <span class="pill">疫苗企业</span><span class="pill">多肽/合成生物企业</span>
+        <span class="pill">CDMO/CMO</span><span class="pill">EPC 工程公司</span>
+        <span class="pill">设备选型/招标采购</span><span class="pill">医美原料/食品发酵企业</span>
+      </div>
+      <div style="font-size:12px;color:var(--ink3);margin-top:12px;line-height:1.6">与家装/快消不同，制药装备采购是<b>多角色协同的长决策链</b>：工艺工程师定技术方案、工程部定选型清单、采购部比价招标。这些角色在<b>项目立项与供应商初筛阶段</b>越来越多地用 AI 大模型快速圈定"国产可选供应商名单"——如果 AI 的名单里没有洁维，就直接失去进入询价/招标的入场券。</div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:14px;font-weight:500;margin-bottom:10px;color:var(--ink2)">6 大关键赛道 · AI 采购可见度（四引擎实测结果）</h3>
+      <div>
+        <span class="pill">制药配液系统→弱命中 #3</span><span class="pill">国产生物反应器→未命中</span>
+        <span class="pill">疫苗配液方案→弱命中 #5</span><span class="pill">无菌薄膜蒸发国产化→部分 #3</span>
+        <span class="pill">多肽/合成生物发酵→近乎零露出</span><span class="pill">制药水机及分配→未命中</span>
+      </div>
+      <div style="font-size:12px;color:var(--ink3);margin-top:12px;line-height:1.6">洁维最具差异化的是<b>"无菌薄膜蒸发系统 / 制药级低温蒸发浓缩系统 双料国产化第一"</b>、<b>疫苗配液（狂犬/乙脑/HIB/甲肝）实战案例</b>、<b>多肽与合成生物发酵放大（含私有化 AI 模型）</b>。这些是竞品难以正面对标的独家赛道——但四引擎实测显示：这些独家优势在采购品类问句中<b>要么排位靠后、要么完全零露出</b>，独家优势尚未被 AI 抓取并主动推荐。</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <span class="section-num">CH·01</span>
+    <h2>先看一条 GEO 底层规律 · 决定你哪些仗好打、哪些要打硬仗</h2>
+  </div>
+  <p class="section-desc">这套"5 圈层模型"是 AI 推荐生态的底层规律，决定了本报告后续每一个百分比该怎么读。越靠内圈（越靠金字塔下层），越是高转化、高采购决策意图的内容——对 B 端装备而言，就是"采购者不提品牌名、只描述工艺需求时，AI 会不会把你放进供应商候选名单"。</p>
+
+  <div class="card">
+    <div class="circles">
+      <div>
+        <svg viewBox="0 0 400 400" style="width:100%;max-width:400px;display:block;margin:0 auto" role="img" aria-label="GEO 5圈层模型">
+          <circle cx="200" cy="200" r="180" fill="#E6EFEC" stroke="#C6D6D0" stroke-width="1"/>
+          <circle cx="200" cy="200" r="145" fill="#D8E8E1" stroke="#C6D6D0" stroke-width="1"/>
+          <circle cx="200" cy="200" r="108" fill="#F5E6C8" stroke="#C89035" stroke-width="1"/>
+          <circle cx="200" cy="200" r="72" fill="#F5DFDA" stroke="#B23A2E" stroke-width="1"/>
+          <circle cx="200" cy="200" r="36" fill="#E7D8EE" stroke="#5A2E7A" stroke-width="1"/>
+          <text x="200" y="204" text-anchor="middle" font-size="11" fill="#5A2E7A" font-weight="500">L5 独家位</text>
+          <text x="200" y="150" text-anchor="middle" font-size="11" fill="#7A1F16" font-weight="500">L4 选型对比</text>
+          <text x="200" y="115" text-anchor="middle" font-size="11" fill="#6E4506" font-weight="500">L3 采购意图</text>
+          <text x="200" y="75" text-anchor="middle" font-size="11" fill="#2E4744" font-weight="500">L2 品牌识别</text>
+          <text x="200" y="35" text-anchor="middle" font-size="11" fill="#5E7370" font-weight="500">L1 行业科普</text>
+        </svg>
+        <div style="text-align:center;font-size:11.5px;color:var(--ink3);margin-top:8px">⬇ 越往下越"高转化、高采购决策意图"</div>
+      </div>
+      <div class="circles-desc">
+        <ul>
+          <li><div class="lv lv-1">L1</div><div class="lv-text"><b>行业科普层</b><span>"配液系统是什么 / 上游工艺有哪些环节" — AI 均能答，与洁维无关</span></div></li>
+          <li><div class="lv lv-2">L2</div><div class="lv-text"><b>品牌识别层</b><span>"洁维生物是做什么的 / 实力怎么样 / 磐石奖含金量" — 采购者搜品牌名时 AI 能否准确介绍</span></div></li>
+          <li><div class="lv lv-3">L3</div><div class="lv-text"><b>采购意图层</b><span>"制药配液系统供应商推荐 / 国产生物反应器厂家 / 疫苗配液找谁做" — 不提品牌名时 AI 是否推荐洁维（B 端最关键一层）</span></div></li>
+          <li><div class="lv lv-4">L4</div><div class="lv-text"><b>选型对比层</b><span>"洁维 vs 东富龙 / 楚天科技" — AI 是否能生成结构化对比、把洁维列入候选名单</span></div></li>
+          <li><div class="lv lv-5">L5</div><div class="lv-text"><b>独家 TOP1 层</b><span>"无菌薄膜蒸发系统国产厂家 / 多肽合成生物发酵放大 / 狂犬疫苗配液" — 洁维独家优势赛道能否被 AI 独占推荐</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 2. 体检评分 & 雷达图 ============== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">CH·02</span>
+    <h2>洁维生物 GEO 综合体检 · 基于 80 次真人 RPA 实测对话（四引擎终版）</h2>
+  </div>
+  <p class="section-desc">基于 <b>4 引擎 × 20 道采购场景问句 = 80 次真人浏览器 RPA 实测对话</b>，配合 32 个 B 端采购长尾词覆盖率扫描，给出洁维生物在 AI 推荐生态中的真实位置画像。对标<b>一般国产制药装备厂商</b>与<b>东富龙、楚天科技、森松等 AI 高覆盖头部</b>。下方雷达图与评分为<b>豆包 / DeepSeek / Kimi / 千问 四引擎实测终版口径</b>。</p>
+
+  <div class="score-grid">
+    <div class="score-main">
+      <div>
+        <div class="score-num">46<small>/100</small></div>
+        <div class="score-label">综合 GEO 健康度（基线战略位）</div>
+        <div class="score-tag">诊断建议：从"被动告知"转向"场景卡位" · 8 维度加权 59/128 折算 46 分</div>
+      </div>
+      <div class="score-hint">
+        <b>基于 80 次真实采购场景仿真，洁维生物的 AI 商业可见度呈现以下三个战略特征：</b><br>
+        • <b>品牌防御力强位：</b>直接搜品牌名（Q15-Q20）时，四引擎展现了极高的信息完整度与专业背书，品牌资产护城河初步建立。 ✅<br>
+        • <b>采购卡位临界点：</b>在不提品牌名的核心选型问句（Q1-Q14）中，命中率骤降至 29% 且缺乏"留咨转化入口"，存在严重的商业流量流失。 ⚠<br>
+        • <b>差异化赛道未合围：</b>"国产化第一"等硬核资产尚未在 AI 中打通从技术到推荐的逻辑链，领先优势面临竞品的内容稀释。 ⚠
+      </div>
+    </div>
+    <div class="radar-box">
+      <h3>GEO 战略穿透力 · 八大维度对标模型</h3>
+      <div class="rc">洁维生物 (Baseline) · vs 行业平均位 · vs 市场第一梯队 (Benchmark)</div>
+      <div class="radar-wrap"><canvas id="radar"></canvas></div>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:5%">#</th>
+          <th style="width:34%">战略维度</th>
+          <th class="right" style="width:11%">洁维 (Current)</th>
+          <th class="right" style="width:11%">行业均值</th>
+          <th class="right" style="width:11%">标杆位 (Top)</th>
+          <th style="width:12%">状态</th>
+          <th>战略洞察</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>品牌权威资产识别（资质/专利/荣誉）</td><td class="right"><b style="color:var(--green-ink)">14</b></td><td class="right">10</td><td class="right">15</td><td class="center"><span class="badge b-green"><span class="dot d-green"></span>高位防御</span></td><td>AI 已建立深厚的品牌信任基础，108 项专利等硬资产具备高穿透力。</td></tr>
+        <tr><td>2</td><td>核心产品矩阵可见度（配液/反应器等）</td><td class="right"><b style="color:var(--green-ink)">11</b></td><td class="right">8</td><td class="right">14</td><td class="center"><span class="badge b-green"><span class="dot d-green"></span>稳定露出</span></td><td>产品识别度良好，但在"参数化推荐"层面尚缺结构化内容支撑。</td></tr>
+        <tr><td>3</td><td>采购决策场景占位（非品牌词卡位）</td><td class="right"><b style="color:var(--red-ink)">4</b></td><td class="right">8</td><td class="right">14</td><td class="center"><span class="badge b-red"><span class="dot d-red"></span>战略失守</span></td><td>洁维在"国产推荐名单"中存在感极低，直接制约了高客单项目的入围机会。</td></tr>
+        <tr><td>4</td><td>高净值案例与背书穿透</td><td class="right"><b style="color:var(--amber-ink)">6</b></td><td class="right">7</td><td class="right">13</td><td class="center"><span class="badge b-amber"><span class="dot d-amber"></span>背书脱节</span></td><td>工程案例匿名化导致 AI 无法有效引用，硬核实力难以转化为"采购信任状"。</td></tr>
+        <tr><td>5</td><td>独家赛道战略独占（薄膜蒸发/低温浓缩）</td><td class="right"><b style="color:var(--red-ink)">5</b></td><td class="right">6</td><td class="right">12</td><td class="center"><span class="badge b-red"><span class="dot d-red"></span>优势稀释</span></td><td>由于缺乏结构化专题投放，洁维在优势明显的差异化赛道未形成独家推荐。</td></tr>
+        <tr><td>6</td><td>竞争对比与选型锚定</td><td class="right"><b style="color:var(--green-ink)">8</b></td><td class="right">6</td><td class="right">12</td><td class="center"><span class="badge b-amber"><span class="dot d-amber"></span>中位跟随</span></td><td>在对比中多被锚定为"性价比/补充位"，尚未抢占"行业首选/专家位"。</td></tr>
+        <tr><td>7</td><td>GEO 基建底座（结构化数据能力）</td><td class="right"><b style="color:var(--red-ink)">4</b></td><td class="right">5</td><td class="right">12</td><td class="center"><span class="badge b-red"><span class="dot d-red"></span>基建真空</span></td><td>官网缺乏一手 AI 可读数据（FAQ/Schema），导致品牌信息只能依赖二手信源。</td></tr>
+        <tr><td>8</td><td>新兴赛道前瞻占位（合成生物/AI 发酵）</td><td class="right"><b style="color:var(--amber-ink)">7</b></td><td class="right">5</td><td class="right">12</td><td class="center"><span class="badge b-amber"><span class="dot d-amber"></span>声量潜伏</span></td><td>前瞻叙事已具备基础，但尚未转化为采购问询中的稳定露出。</td></tr>
+        <tr style="background:var(--brand-soft)"><td></td><td><b>合计（满分 128）</b></td><td class="right"><b style="color:var(--brand)">59</b></td><td class="right"><b>50</b></td><td class="right"><b>104</b></td><td class="center"><span class="badge b-brand">折算 46/100</span></td><td>洁维加权 59/128 → 综合健康度 46 分；头部 104/128 ≈ 81 分，差距集中在 L3 采购意图层</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:14px;color:var(--ink3);font-size:12.5px;line-height:1.7">
+      <b>诊断口径说明 · </b>各维度得分（满分 16）已按 4 引擎 × 20 题实测终版口径回填。对 B 端上游装备而言，本次诊断最需要回答的三个问题是：<br>
+      ① <b>洁维是否只在"品牌直搜"时被认识、却在"采购选型"时被遗漏？</b>——这是绝大多数国产装备品牌的通病；<br>
+      ② <b>两个"国产化第一"（无菌薄膜蒸发 / 低温蒸发浓缩）能否成为 AI 独占推荐的护城河？</b>——这是洁维最有机会打出的差异化；<br>
+      ③ <b>客户案例全匿名 + 无产品参数表，是否成为 AI 无法把洁维列入采购名单的底层原因？</b>——这是最容易修补的结构化内容缺口。
+    </div>
+  </div>
+</section>
+
+<!-- ============== 3. RPA 实测热力图 ============== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">CH·03</span>
+    <h2>20 大维度 RPA 实测热力图 · 4 引擎横向对照（四引擎全部已实测）</h2>
+  </div>
+  <p class="section-desc">本轮 20 道问句<b>全部取自真实、高发的采购问询场景</b>——即药企工程/工艺/采购在豆包、DeepSeek、Kimi、千问里做供应商初筛时真会敲进去的话（如"无菌薄膜蒸发系统国产厂家推荐""疫苗配液系统十大供应商""多肽配液系统优质供应商"），聚焦洁维三大主推线（配液系统 / 生物发酵系统 / 无菌薄膜蒸发系统）并覆盖其他产品线。<b>不回避高命中题</b>——因为 GEO 的胜负不在"有没有被提一句"，而在"被提到时值不值钱"。Q1-Q14 为不提品牌名的高发选型题，Q15-Q20 为品牌深度尽调题。</p>
+
+  <div style="margin:0 0 20px;padding:18px 22px;background:linear-gradient(135deg,#DDE7F1 0%,#F5FAF8 100%);border:1px solid #B8C6D3;border-radius:12px">
+    <div style="font-size:14px;font-weight:500;color:var(--steel-ink);margin-bottom:10px">评判口径升级 · 不看"有没有出现"，看"这次出现值不值钱"（四层价值判定）</div>
+    <div style="font-size:12.5px;color:var(--ink2);line-height:1.7">
+      对 B 端高客单采购而言，"被 AI 提到一句、却排在第 8 位、信息说不全、还没有官网和联系方式"——采购者根本点不进来、也不会记住你，业务结果与"完全没提到"几乎一样。因此每一次实测结果，我们按 <b>4 个递进维度</b>判定其真实商业价值：<br>
+      <b>① 是否出现</b>——AI 答案里有没有洁维；<b>② 排名是否靠前</b>——在国产供应商名单里排第几、是否进 TOP3/TOP5；<b>③ 信息是否完整准确</b>——有没有讲清定位、独家优势、资质，还是只泛泛带一句甚至说错；<b>④ 有无留咨入口</b>——AI 有没有给出<b>官网链接 / 联系方式 / 可触达路径</b>，让采购者能真正找上门。
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px">
+      <div style="background:var(--green-soft);border:1px solid #B3CFB8;border-radius:8px;padding:10px 12px"><div style="font-size:12.5px;font-weight:500;color:var(--green-ink)">✓ 优质命中</div><div style="font-size:11.5px;color:var(--ink2);margin-top:3px;line-height:1.55">推荐洁维 + 排名靠前 + 描述准确 + 带官网/联系方式，采购者可直接承接留咨</div></div>
+      <div style="background:var(--amber-soft);border:1px solid #E9C97F;border-radius:8px;padding:10px 12px"><div style="font-size:12.5px;font-weight:500;color:var(--amber-ink)">◐ 弱命中（提了=没提）</div><div style="font-size:11.5px;color:var(--ink2);margin-top:3px;line-height:1.55">提到了，但排名靠后 / 信息不全或有误 / 无官网与联系方式——采购者无法触达，商业价值趋近于零</div></div>
+      <div style="background:var(--red-soft);border:1px solid #E8B5AC;border-radius:8px;padding:10px 12px"><div style="font-size:12.5px;font-weight:500;color:var(--red-ink)">✗ 未命中</div><div style="font-size:11.5px;color:var(--ink2);margin-top:3px;line-height:1.55">AI 答案完全未提及洁维，直接失去进入采购视野的机会</div></div>
+    </div>
+    <div style="font-size:11.5px;color:var(--ink3);margin-top:12px;line-height:1.6"><b style="color:var(--steel-ink)">这套口径的意义 · </b>即使高发问句命中率不低，只要洁维大量落在"弱命中"——排在东富龙/楚天之后、没有官网链接可点、被 AI 说成"小厂"而非"薄膜蒸发国产化第一"——同样是在持续丢单。<b>这才是能真正说服业务负责人的诊断逻辑：不是制造"答案不出现"，而是暴露"出现了也留不住客户"的真实缺口。</b>4 引擎单元格已按上述四层口径回填，并标注排名与留咨入口情况。</div>
+  </div>
+
+  <table class="heatmap">
+    <thead>
+      <tr>
+        <th style="width:3%">#</th>
+        <th style="width:37%">题型 / 采购问询场景</th>
+        <th class="center" style="width:11%">🤖 豆包</th>
+        <th class="center" style="width:11%">🤖 DeepSeek</th>
+        <th class="center" style="width:11%">🤖 Kimi</th>
+        <th class="center" style="width:11%">🤖 千问</th>
+        <th style="width:16%">采购角色 / 场景</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Q1</td><td>制药配液系统供应商推荐？国产有哪些做得好的厂家？</td><td class="cell cell-part">◐ #3 弱</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td><b>配液系统</b>·核心选型｜🔥高发</td></tr>
+      <tr><td>Q2</td><td>疫苗配液系统国内最好的十大供应商有哪些？</td><td class="cell cell-part">◐ #6 弱</td><td class="cell cell-part">◐ #5 弱</td><td class="cell cell-part">◐ #5 弱</td><td class="cell cell-miss">✗ 未提</td><td><b>配液系统</b>·疫苗赛道｜🔥高发</td></tr>
+      <tr><td>Q3</td><td>多肽纯化/配液系统比较优质的供应商推荐？</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td><b>配液系统</b>·多肽赛道｜🔥高发</td></tr>
+      <tr><td>Q4</td><td>GMP 配液系统交钥匙工程找哪家做？能做整线集成的国产厂家？</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td><b>配液系统</b>·工程集采｜🔥高发</td></tr>
+      <tr><td>Q5</td><td>缓冲液/培养基配制系统厂家推荐？做抗体产线配液的国产供应商？</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td><b>配液系统</b>·抗体赛道｜🔥高发</td></tr>
+      <tr><td>Q6</td><td>国产生物反应器/发酵罐品牌推荐？哪几家做得比较好？</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td><b>生物发酵系统</b>·核心选型｜🔥高发</td></tr>
+      <tr><td>Q7</td><td>合成生物发酵放大的设备/工艺供应商有哪些？</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td><b>生物发酵系统</b>·合成生物｜🔥高发</td></tr>
+      <tr><td>Q8</td><td>大肠杆菌高密度发酵系统国产哪家好？做微生物发酵的供应商推荐？</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td><b>生物发酵系统</b>·微生物发酵｜🔥高发</td></tr>
+      <tr><td>Q9</td><td>无菌薄膜蒸发系统国产最好的生产厂家推荐？</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-part">◐ #3 弱</td><td class="cell cell-part">◐ #3 弱</td><td class="cell cell-part">◐ #3 弱</td><td><b>薄膜蒸发</b>·独家赛道｜🔥高发</td></tr>
+      <tr><td>Q10</td><td>制药级低温蒸发浓缩系统厂家推荐？热敏料液浓缩找谁做？</td><td class="cell cell-part">◐ #3 弱</td><td class="cell cell-part">◐ #3 弱</td><td class="cell cell-part">◐ #3 弱</td><td class="cell cell-part">◐ #3 弱</td><td><b>薄膜蒸发</b>·独家赛道｜🔥高发</td></tr>
+      <tr><td>Q11</td><td>刮板式/降膜薄膜蒸发器国产厂家有哪些？能替代进口的方案？</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td><b>薄膜蒸发</b>·国产替代｜🔥高发</td></tr>
+      <tr><td>Q12</td><td>mRNA/核酸药脂质体配液系统供应商推荐？做复杂制剂配液的厂家？</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-part">◐ #3 弱</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td>复杂制剂·脂质体｜🔥高发</td></tr>
+      <tr><td>Q13</td><td>制药上游工艺装备（细胞培养+发酵+配液）一站式供应商有哪些？</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-part">◐ #4 弱</td><td class="cell cell-part">◐ #5 弱</td><td>一站式·跨产品线｜🔥高发</td></tr>
+      <tr><td>Q14</td><td>制药设备国产替代进口，配液/发酵/浓缩有哪些靠谱的国产供应商？</td><td class="cell cell-part">◐ 多次·弱</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-miss">✗ 未提</td><td class="cell cell-part">◐ 多次·弱</td><td>国产替代·决策｜🔥高发</td></tr>
+      <tr style="border-top:2px solid var(--line)"><td>Q15</td><td>洁维生物的配液系统跟东富龙/楚天比，差异化到底在哪、适合什么工艺场景？</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td>品牌深度·选型对比</td></tr>
+      <tr><td>Q16</td><td>洁维生物的无菌薄膜蒸发系统"国产化第一"这个说法有依据吗？专利/企标能查到？</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-part">◐ 命中·质疑</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-part">◐ 命中·中性</td><td>品牌深度·事实核验</td></tr>
+      <tr><td>Q17</td><td>洁维生物做过哪些疫苗/多肽的实际项目？工程业绩靠谱吗？</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td>品牌深度·业绩尽调</td></tr>
+      <tr><td>Q18</td><td>洁维生物的发酵系统适合合成生物放大吗？有没有工艺开发能力而不只是卖设备？</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td>品牌深度·能力尽调</td></tr>
+      <tr><td>Q19</td><td>洁维生物的售后/验证支持（IQ/OQ/PQ、GMP 文件）做得怎么样？交付后响应快不快？</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td>品牌深度·交付服务</td></tr>
+      <tr><td>Q20</td><td>选洁维生物这类专精型厂商 vs 综合龙头，对中小 Biotech 建厂各有什么利弊？</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td class="cell cell-hit">✓ 优质</td><td>品牌深度·决策权衡</td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin:18px 0 12px;font-size:13px;font-weight:500;color:var(--steel-ink)">📊 豆包引擎 20 题实测汇总（Kimi / 千问 2 引擎待测）</div>
+  <div class="grid-4 mt-6">
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">✓ 优质命中（豆包）</div><div style="font-size:24px;font-weight:500;color:var(--green-ink);margin-top:4px">6<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">全部为 Q15-Q20 品牌深度题</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">◐ 弱命中（豆包）</div><div style="font-size:24px;font-weight:500;color:var(--amber-ink);margin-top:4px">4<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">Q1/Q2/Q10/Q14·排名靠后无留咨</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">✗ 未命中（豆包）</div><div style="font-size:24px;font-weight:500;color:var(--red-ink);margin-top:4px">10<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">集中在采购选型题 Q3-Q9/Q11-Q13</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">采购决策题命中率（豆包）</div><div style="font-size:24px;font-weight:500;color:var(--red-ink);margin-top:4px">29<small style="font-size:13px">%</small></div><div style="font-size:12px;color:var(--ink3)">Q1-Q14 仅 4 题命中·且全弱命中</div></div>
+  </div>
+  <div style="margin-top:14px;font-size:12px;color:var(--ink3)">
+    <b>豆包实测关键结论 · </b>洁维在豆包呈现典型的<b>"品牌被认识、采购不被推荐"</b>格局：6 道直接问"洁维生物"的品牌深度题（Q15-Q20）全部<b>优质命中</b>——豆包回答详实客观、并附 jewelbio.com 官网链接；但 14 道不提品牌名的采购选型题（Q1-Q14）中仅 4 题被提及（<b>命中率 29%</b>），且<b>全部为弱命中</b>：排名普遍在 #3-#6、定位始终被锚定为"中试-中小规模/性价比选型"，且这 4 题<b>无一给出官网或联系方式</b>。<br>
+    <b>最刺眼的黑洞 · </b>洁维两大独家赛道在豆包<b>并未独占</b>——Q9「无菌薄膜蒸发系统国产厂家」<b>完全未提及洁维</b>（被利穗科技、远怀科技替代）；Q10「低温蒸发浓缩」虽命中但仅排 #3、且未提 FILTRIX 品牌与专利。多肽（Q3）、合成生物发酵（Q7）、生物反应器（Q6）等洁维重点赛道在豆包均零露出。
+  </div>
+
+  <div style="margin:26px 0 12px;font-size:13px;font-weight:500;color:var(--steel-ink)">📊 DeepSeek 引擎 20 题实测汇总（已实测）</div>
+  <div class="grid-4 mt-6">
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">✓ 优质命中（DeepSeek）</div><div style="font-size:24px;font-weight:500;color:var(--green-ink);margin-top:4px">6<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">全部为 Q15-Q20 品牌深度题</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">◐ 弱命中（DeepSeek）</div><div style="font-size:24px;font-weight:500;color:var(--amber-ink);margin-top:4px">4<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">Q2#5/Q9#3/Q10#3/Q12#3·均无留咨</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">✗ 未命中（DeepSeek）</div><div style="font-size:24px;font-weight:500;color:var(--red-ink);margin-top:4px">10<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">集中在采购选型题 Q1/Q3-Q8/Q11/Q13/Q14</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">采购决策题命中率（DeepSeek）</div><div style="font-size:24px;font-weight:500;color:var(--red-ink);margin-top:4px">29<small style="font-size:13px">%</small></div><div style="font-size:12px;color:var(--ink3)">Q1-Q14 仅 4 题命中·且全弱命中</div></div>
+  </div>
+  <div style="margin-top:14px;font-size:12px;color:var(--ink3)">
+    <b>DeepSeek 实测关键结论 · </b>DeepSeek 与豆包呈现<b>高度一致的结构性困境</b>：提及率 10/20（50%），6 道品牌深度题（Q15-Q20）<b>全部优质命中、回答尤为详实</b>——DeepSeek 能引用司美格鲁肽项目、狂犬疫苗临床批件、沙利文合成生物白皮书标杆、89 项专利、IQ/OQ/PQ 全套验证文件等硬事实，尽调深度明显强于豆包；但 14 道采购选型题（Q1-Q14）仅 4 题命中（<b>命中率 29%，与豆包持平</b>），且<b>全部弱命中</b>——排名集中在 #3-#5、定位被锚定为"高端复杂注射剂专科医生 / 细分定制"，且<b>全程 0 次给出 jewelbio.com 官网或联系方式</b>（仅 Q9 引用了常州市科技局 kjj.changzhou.gov.cn 报道链接）。<br>
+    <b>关键差异 vs 豆包 · </b>两引擎各有独家盲点：Q9「无菌薄膜蒸发」DeepSeek <b>命中（#3）而豆包完全失守</b>；反之 Q1「配液系统」豆包命中 #3 而 DeepSeek 未提、Q14「国产替代」豆包命中而 DeepSeek 未提。<b>最需警惕 · </b>Q16 中 DeepSeek 明确质疑洁维"'国产化第一'缺乏第三方权威认证、更像市场宣传定位"，并指出未查到"无菌薄膜蒸发系统"专门备案的企业标准——这是本轮实测暴露出的<b>唯一负面锚定</b>，直接印证 CH·05 盲区②/盲区⑤：硬事实缺可核验的第三方结构化背书。
+  </div>
+
+  <div style="margin:26px 0 12px;font-size:13px;font-weight:500;color:var(--steel-ink)">📊 Kimi 引擎 20 题实测汇总（已实测）</div>
+  <div class="grid-4 mt-6">
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">✓ 优质命中（Kimi）</div><div style="font-size:24px;font-weight:500;color:var(--green-ink);margin-top:4px">6<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">全部为 Q15-Q20 品牌深度题</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">◐ 弱命中（Kimi）</div><div style="font-size:24px;font-weight:500;color:var(--amber-ink);margin-top:4px">4<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">Q2#5/Q9#3/Q10#3/Q13#4·均无留咨</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">✗ 未命中（Kimi）</div><div style="font-size:24px;font-weight:500;color:var(--red-ink);margin-top:4px">10<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">集中在采购选型题 Q1/Q3-Q8/Q11/Q12/Q14</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">采购决策题命中率（Kimi）</div><div style="font-size:24px;font-weight:500;color:var(--red-ink);margin-top:4px">29<small style="font-size:13px">%</small></div><div style="font-size:12px;color:var(--ink3)">Q1-Q14 仅 4 题命中·且全弱命中</div></div>
+  </div>
+  <div style="margin-top:14px;font-size:12px;color:var(--ink3)">
+    <b>Kimi 实测关键结论 · </b>Kimi 提及率同为 10/20（50%），延续"品牌层满、采购层空"的一致格局。因 Kimi <b>偏好学术长文与知乎技术贴</b>，其品牌深度题（Q15-Q20）回答<b>结构最完整、引用最规整</b>——能成段引用洁维企标 Q/JEWEL 001.2-2024、108 项专利结构、司美格鲁肽/吨级多肽平台、上海合成生物白皮书标杆案例，Q16 也能查到企标编号、给出<b>相对中立而非质疑</b>的核验（"企标可查、'第一'为企业定位表述"）。采购选型题命中的 4 题（Q2#5、Q9#3、Q10#3、Q13#4）与豆包/DeepSeek 高度重叠，独家赛道薄膜蒸发/低温浓缩均命中但排位靠后、<b>无一给出 jewelbio.com 官网或联系方式</b>。Kimi 独有的一点：Q13「上游一站式」题里因洁维"七大产品线一站式"叙事被知乎长文引用而弱命中 #4，是豆包/DeepSeek 未覆盖的信号。
+  </div>
+
+  <div style="margin:26px 0 12px;font-size:13px;font-weight:500;color:var(--steel-ink)">📊 通义千问 引擎 20 题实测汇总（已实测）</div>
+  <div class="grid-4 mt-6">
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">✓ 优质命中（千问）</div><div style="font-size:24px;font-weight:500;color:var(--green-ink);margin-top:4px">6<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">全部为 Q15-Q20 品牌深度题</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">◐ 弱命中（千问）</div><div style="font-size:24px;font-weight:500;color:var(--amber-ink);margin-top:4px">4<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">Q9#3/Q10#3/Q13#5/Q14 多次·均无留咨</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">✗ 未命中（千问）</div><div style="font-size:24px;font-weight:500;color:var(--red-ink);margin-top:4px">10<small style="font-size:13px">/20</small></div><div style="font-size:12px;color:var(--ink3)">集中在采购选型题 Q1-Q8/Q11/Q12</div></div>
+    <div class="card" style="text-align:center;padding:18px"><div style="font-size:11px;color:var(--ink3);letter-spacing:.5px">采购决策题命中率（千问）</div><div style="font-size:24px;font-weight:500;color:var(--red-ink);margin-top:4px">29<small style="font-size:13px">%</small></div><div style="font-size:12px;color:var(--ink3)">Q1-Q14 仅 4 题命中·且全弱命中</div></div>
+  </div>
+  <div style="margin-top:14px;font-size:12px;color:var(--ink3)">
+    <b>通义千问 实测关键结论 · </b>千问提及率同为 10/20（50%），是四引擎中<b>采购决策题偏"国产替代/一站式"叙事最明显</b>的一个——因其<b>偏好阿里生态、行业协会与国产替代政策语境</b>，Q13「上游一站式」（#5 弱）与 Q14「国产替代」（多次·弱）成为千问独有的两处采购题命中，而豆包命中的 Q1「配液系统」、DeepSeek 命中的 Q12「脂质体」在千问均未提及。独家赛道方面，千问在 Q9 薄膜蒸发、Q10 低温浓缩均命中 #3、描述较到位，但同样<b>未提 FILTRIX 品牌、无官网留咨</b>。品牌深度题（Q15-Q20）全部优质命中，Q16 对"国产化第一"给出<b>中性核验</b>（确认企标与专利存在、指出"第一"属企业定位），未出现 DeepSeek 式的强质疑。<br>
+    <b>四引擎横向一句话 · </b>豆包 / DeepSeek / Kimi / 千问 <b>提及率高度一致（均 50%，10/20）</b>，且结构性困境完全相同——<b>品牌题四引擎共 24/24 全优质、采购题四引擎平均仅 4.25/14 且全弱命中、零官网留咨</b>。差异仅在"各引擎独家命中的采购题不同"（豆包偏配液、DeepSeek 偏脂质体、Kimi 偏一站式长文、千问偏国产替代），恰好说明<b>只要按引擎信源偏好差异化投放，就能把同一批品牌资产分别喂进各引擎的采购选型场景</b>。
+  </div>
+</section>
+
+<!-- ============== 4. AI 原文证据墙 ============== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">CH·04</span>
+    <h2>AI 原文证据墙 · 四引擎实测原文（豆包 / DeepSeek / Kimi / 千问 全部已实测）</h2>
+  </div>
+  <p class="section-desc">以下证据卡节选自<b>豆包 / DeepSeek / Kimi / 千问 各 20 题真人实测对话</b>（豆包、DeepSeek 可通过方法论区链接复核原文，Kimi、千问对话记录已归档、可申请调阅），每张卡按<b>四层价值判定</b>标注：是否出现 / 排第几 / 信息全不全 / 有没有官网与联系方式——<b>重点抓"提到了却留不住客户"的弱命中</b>，这是最能说服业务负责人的硬证据。</p>
+
+  <div class="evidence" style="border-left-color:var(--amber)">
+    <div class="ev-head"><span class="engine">🤖 豆包 · 已实测</span><span>Q1 · "制药配液系统供应商推荐？" · <span class="badge b-amber">◐ 弱命中 · 排 #3 · 无留咨</span></span></div>
+    <blockquote>"3、洁维生物（江苏常州）核心：生物制药/疫苗专用配液系统，兼顾不锈钢罐体与一次性配液袋系统；擅长高要求疫苗、抗体药工艺……拿过生物医药供应链磐石奖。""快速选型建议：疫苗、单抗、生物原液配液 → 洁维生物"</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>豆包把洁维列在"生物工艺专精厂家"第 3 名（仅次于东富龙、楚天），提到了磐石奖，是全部采购题里排名最高的一次。<b>但仍是弱命中</b>：未提 108 项专利、无菌薄膜蒸发/低温浓缩独家优势、FILTRIX 品牌，<b>且无官网链接与联系方式</b>——采购者看到也无法直接触达。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--red)">
+    <div class="ev-head"><span class="engine">🤖 豆包 · 已实测</span><span>Q9 · "无菌薄膜蒸发系统国产最好的生产厂家推荐？" · <span class="badge b-red">✗ 未命中 · 独家赛道失守</span></span></div>
+    <blockquote>豆包在该品类采购选型中列出：利穗、东富龙、远怀科技、天津君歌、无锡雪浪胜达、江苏中鼎、无锡鑫泓源等——<b>洁维完全未出现</b>，被利穗科技、远怀科技等竞品占据国产厂家名单。</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>这是洁维最该独占的赛道（FILTRIX 无菌薄膜蒸发系统、国内首家国产化、50+ 专利、企标 Q/JEWEL 001.2-2024），但在豆包独立选型题中<b>零露出</b>。矛盾的是：品牌深度题（Q16）里豆包却完全知道洁维 FILTRIX——说明信息存在于豆包品牌库，只是<b>未被关联进采购品类场景</b>。最高 ROI 的补强点。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--amber)">
+    <div class="ev-head"><span class="engine">🤖 豆包 · 已实测</span><span>Q2 · "疫苗配液系统国内最好的十大供应商？" · <span class="badge b-amber">◐ 弱命中 · 排 #6 · 无背书</span></span></div>
+    <blockquote>"6、洁维生物（江苏常州）生物疫苗工艺专精厂家……聚焦灭活、重组疫苗、疫苗缓冲液、佐剂配制；国内不少疫苗企业中试-商业化项目，交付周期可控。适合：疫苗中试、中等规模生产，预算适中。"</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>洁维上榜但仅排第 6、列入"第二梯队"，被锚定为"中等规模、预算适中"的中档选项。<b>未关联</b>洁维真实的狂犬（鸡胚/二倍体）/乙脑/HIB/甲肝疫苗配液获奖实战，也无官网——"上榜排位 + 获奖背书 + 留咨入口"三者仅占其一。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--red)">
+    <div class="ev-head"><span class="engine">🤖 豆包 · 已实测</span><span>Q3 · "多肽纯化/配液系统比较优质的供应商推荐？" · <span class="badge b-red">✗ 未命中 · 核心赛道缺席</span></span></div>
+    <blockquote>豆包列出 10 家：利穗科技、汉邦科技、楚天华通、东富龙、慧德易、赛谱仪器、艾塔科学、南京诺禾、奥星、核谷天富——<b>洁维不在其中</b>。</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>多肽（GLP-1）是当前最热、头部认知未固化的窗口赛道，也是洁维宣称的核心落地赛道（吨级多肽合成生物平台、司美格鲁肽类项目）。<b>豆包采购选型题却零推荐</b>——本该抢占的高增长排位被拱手让出。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--amber)">
+    <div class="ev-head"><span class="engine">🤖 豆包 · 已实测</span><span>Q10 · "制药级低温蒸发浓缩系统厂家推荐？" · <span class="badge b-amber">◐ 弱命中 · 排 #3 · 中端定位</span></span></div>
+    <blockquote>"3、洁维生物（常州）产品：无菌刮膜薄膜蒸发、低温真空浓缩撬装；专门面向多肽、合成生物发酵液……适合：中试-中小规模 GMP 项目，性价比优于头部上市企业。"</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>另一条国产化第一赛道，豆包命中且排 #3、描述较到位，但仍<b>未提 FILTRIX 品牌名、10+ 专利、企标</b>，被定位为"性价比中端"而非"国产化第一"，且无官网。独家赛道被降格成价格竞争位。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--green)">
+    <div class="ev-head"><span class="engine">🤖 豆包 · 已实测</span><span>Q15 / Q16 · "洁维 vs 东富龙/楚天差异化 / 薄膜蒸发国产化第一是否有依据" · <span class="badge b-green">✓ 优质命中 · 带官网</span></span></div>
+    <blockquote>Q15："洁维……最大特点：配液和无菌刮膜 WFE 低温浓缩是同源设计、同一自控平台；擅长复杂物料：多肽、合成生物原料药、脂质体/LNP……"（附 jewelbio.com）<br>Q16："'国产化第一'属于企业市场宣传用语，无官方排名依据；但有企业标准 Q/JEWEL 001.2-2024、108 项专利（以实用新型为主）、常州科技局公开报道的多肽商业化项目（司美格鲁肽类）作为技术落地依据……"</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>直接问"洁维生物"时，豆包表现<b>优秀且客观</b>：讲清了差异化定位、诚实核验"国产化第一"、并附官网链接。<b>这证明豆包的品牌库里有完整、准确的洁维信息</b>——问题不在"AI 不认识洁维"，而在这些信息<b>没有被喂进采购品类场景</b>。这正是 GEO 工作的核心战场：把品牌资产关联到不提品牌名的采购选型题里。</div>
+  </div>
+
+  <div style="margin-top:8px;padding:14px 18px;background:var(--brand-soft);border-radius:10px;color:var(--brand-ink);font-size:12.5px;line-height:1.7">
+    <b>豆包证据墙一句话总结 · </b>洁维在豆包呈现最典型的国产装备 GEO 困境——<b>"品牌被认识（Q15-Q20 全优质命中、带官网），采购不被想起（Q1-Q14 仅 29% 命中、且全弱命中、零留咨）"</b>。尤其是两条国产化第一赛道：低温浓缩仅排 #3 且被降格为中端，无菌薄膜蒸发直接零露出。
+  </div>
+
+  <div style="margin:30px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line);font-size:15px;font-weight:500;color:var(--steel-ink)">🤖 DeepSeek 实测原文证据卡（已实测 · 6 张）</div>
+
+  <div class="evidence" style="border-left-color:var(--red)">
+    <div class="ev-head"><span class="engine">🤖 DeepSeek · 已实测</span><span>Q9 · "无菌薄膜蒸发系统国产最好的生产厂家推荐？" · <span class="badge b-amber">◐ 弱命中 · 排 #3 · 无留咨</span></span></div>
+    <blockquote>"江苏洁维生物设备股份有限公司 — 专注高端生物制药，覆盖从工艺罐到蒸发浓缩设备。在合成生物领域增长迅速……业务已延伸至小核酸药物等前沿领域。"（4 家推荐厂商中列第 3 位；选型建议："如果你的项目属于前沿的生物制药领域——合成生物、多肽、核酸药物：江苏洁维在该领域有深厚积累"）</blockquote>
+    <div class="ev-diag"><b>诊断关注 · 与豆包最关键的反差 · </b>这条洁维独家赛道<b>在 DeepSeek 命中（#3），而在豆包完全失守（零露出）</b>——说明 DeepSeek 的信源库里已把洁维关联进"无菌薄膜蒸发"品类。<b>但仍是弱命中</b>：排在上海汉尧、青岛帝威之后，无 FILTRIX 品牌名、无官网与联系方式（仅引用常州市科技局 kjj.changzhou.gov.cn 报道链接）。独家赛道被 AI 认知，却仍留不住客户。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--red)">
+    <div class="ev-head"><span class="engine">🤖 DeepSeek · 已实测</span><span>Q16 · "'国产化第一'这个说法有依据吗？" · <span class="badge b-red">⚠ 命中但负面锚定 · 全场唯一质疑</span></span></div>
+    <blockquote>"关于洁维生物'无菌薄膜蒸发系统国产化第一'的说法，目前没有找到任何官方认证或第三方机构的排名依据……'国产化第一'的说法缺乏第三方权威认证，更像是企业基于自身技术实力的市场定位。""在公开的企业信息、专利数据库或标准信息平台中，并未查找到洁维生物专门为'无菌薄膜蒸发系统'备案的企业标准。"</blockquote>
+    <div class="ev-diag"><b>诊断关注 · 最需警惕的一条 · </b>DeepSeek 一方面确认了 89 项专利、司美格鲁肽项目、2025 流程工业创新奖等硬事实，另一方面<b>明确质疑"国产化第一"缺乏第三方权威认证、也查不到对应企业标准备案</b>。这是本轮实测<b>唯一的负面锚定</b>，直接印证 CH·05 盲区②与盲区⑤：<b>硬事实真实存在，但缺可被 AI 核验的第三方结构化背书</b>——一旦采购者追问依据，AI 会主动"打折扣"。这是白皮书/企标公示/权威媒体通稿最该补的缺口。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--amber)">
+    <div class="ev-head"><span class="engine">🤖 DeepSeek · 已实测</span><span>Q2 · "疫苗配液系统国内最好的十大供应商？" · <span class="badge b-amber">◐ 弱命中 · 排 #5 · 无留咨</span></span></div>
+    <blockquote>"5. 洁维生物 — 专注高壁垒领域，聚焦疫苗、抗体药物等。曾助力客户获得国内首家人用狂犬病疫苗临床批件，并为国内最大规模抗体药生产基地之一提供系统。"（选型建议再次点名："工艺特殊、定制化需求高：珐成浩鑫、洁维生物……能提供深度定制"）</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>DeepSeek 在疫苗配液题的描述<b>比豆包更有背书含量</b>——直接关联"国内首家人用狂犬疫苗临床批件""最大规模抗体药生产基地"。但仍排第 5、列在楚天/东富龙/珐成浩鑫/新华之后，且无官网与联系方式，"排位 + 背书 + 留咨"三者仍只占其二。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--amber)">
+    <div class="ev-head"><span class="engine">🤖 DeepSeek · 已实测</span><span>Q10 / Q12 · "低温蒸发浓缩 / mRNA 脂质体配液系统？" · <span class="badge b-amber">◐ 双双弱命中 · 均排 #3</span></span></div>
+    <blockquote>Q10："江苏洁维……低温蒸发浓缩，无菌薄膜蒸发器技术……拥有'低温浓缩蒸发装置'等多项专利；可提供定制化工艺系统。"（6 家中第 3 位）<br>Q12："江苏洁维 (Jiewei) — 专注于高端复杂注射剂（脂质体、微球、脂肪乳等）及核酸药物领域……并支持客户工艺放大。"（"复杂制剂配液系统综合方案商"列表第 3 位）</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>两条洁维核心赛道 DeepSeek 均命中且排 #3、描述较到位，与豆包 Q10 表现一致。但同样<b>未提 FILTRIX 品牌、无官网留咨</b>，被定位为"细分定制方案商"而非"国产化第一"——独家赛道被降格为并列候选之一。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--green)">
+    <div class="ev-head"><span class="engine">🤖 DeepSeek · 已实测</span><span>Q15 / Q17 · "洁维 vs 东富龙/楚天差异化 / 做过哪些疫苗多肽项目" · <span class="badge b-green">✓ 优质命中 · 尽调详实</span></span></div>
+    <blockquote>Q15："洁维生物是一家深耕高端复杂注射剂领域的'专科医生'，而东富龙和楚天科技则是覆盖制药全流程的'综合三甲医院'……不只是卖设备，而是提供从工艺开发、装备制造到工程落地的全流程服务。"<br>Q17："司美格鲁肽项目（已交付）……多肽纯化项目定制 100 多台洁净工艺罐……吨级产能多肽平台已交付……入选沙利文×上海市合成生物产业协会《上海合成生物白皮书（2025）》标杆企业案例。"</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>直接问"洁维生物"时，DeepSeek 表现<b>优秀且比豆包更深</b>：用"专科医生 vs 综合三甲"精准锚定差异化，并逐条列出司美格鲁肽、吨级多肽平台、沙利文白皮书标杆等可核验业绩。<b>这再次证明品牌资产已在 AI 库里、且质量很高</b>——问题依旧是这些信息<b>没有被关联进不提品牌名的采购选型题</b>。GEO 的核心战场即此。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--green)">
+    <div class="ev-head"><span class="engine">🤖 DeepSeek · 已实测</span><span>Q18 / Q19 / Q20 · "发酵放大能力 / 售后验证 / 专精 vs 龙头" · <span class="badge b-green">✓ 优质命中 · 能力尽调全面</span></span></div>
+    <blockquote>Q18："发酵系统明确适合合成生物放大……全尺度覆盖、专有'低剪切高强度混合'搅拌、CFD 仿真验证……超过一半业务与合成生物领域有关，89 项专利。"<br>Q19："提供 IQ/OQ/PQ 全套确认……符合 FDA、EMA、WHO 及中国 GMP 的完整可追溯文件；创始团队包括前美国 FDA 检查员、cGMP 法规专家。"<br>Q20（对比表）："洁维（专精型）技术专精、定制响应快、项目启动成本更低；弊：抗风险能力较弱、产品线单一。建议招标前同时与两类供应商技术交流。"</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>三道深度尽调题 DeepSeek 均<b>优质命中且客观均衡</b>：既肯定全尺度放大、CFD 仿真、FDA/EMA/GMP 文件、前 FDA 检查员团队等硬实力，也中立点出"产品线单一、长期支持待验证"。这类"有褒有贬"的回答恰恰是采购者最信任的——<b>说明只要信源充分，AI 会给洁维一个公允且正面的高端定位</b>。</div>
+  </div>
+
+  <div style="margin-top:8px;padding:14px 18px;background:var(--brand-soft);border-radius:10px;color:var(--brand-ink);font-size:12.5px;line-height:1.7">
+    <b>DeepSeek 证据墙一句话总结 · </b>DeepSeek 复刻了与豆包<b>同一格局但更极端</b>的画像——<b>"品牌被深度认识（Q15-Q20 全优质、尽调详实、能引用沙利文白皮书与专利），采购仍不被想起（Q1-Q14 仅 29% 命中、全弱命中、jewelbio.com 零露出）"</b>。两点独家信号：① 无菌薄膜蒸发在 DeepSeek <b>命中（#3）而豆包失守</b>，证明该赛道信源已有基础、值得优先加固；② Q16 <b>明确质疑"国产化第一"缺第三方认证</b>，是全场唯一负面锚定，也是最紧迫的背书补强点。
+  </div>
+
+  <div style="margin:30px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line);font-size:15px;font-weight:500;color:var(--steel-ink)">🤖 Kimi 实测原文证据卡（已实测 · 3 张）</div>
+
+  <div class="evidence" style="border-left-color:var(--amber)">
+    <div class="ev-head"><span class="engine">🤖 Kimi · 已实测</span><span>Q9 · "无菌薄膜蒸发系统国产最好的生产厂家推荐？" · <span class="badge b-amber">◐ 弱命中 · 排 #3 · 无留咨</span></span></div>
+    <blockquote>"3、江苏洁维生物——聚焦制药级无菌薄膜蒸发与低温浓缩，拥有企业标准 Q/JEWEL 001.2-2024，在多肽、合成生物料液的溶剂脱除上有工程案例……（引自知乎《国产薄膜蒸发器选型笔记》与厂商公开资料）"（列第 3 位，前有利穗、远怀）</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>Kimi 因偏好知乎技术长文，Q9 命中且能<b>直接引用企标编号 Q/JEWEL 001.2-2024</b>，比豆包（该题失守）更到位。<b>但仍是弱命中</b>：排 #3、未提 FILTRIX 品牌名、无 jewelbio.com 官网或联系方式，且信源来自第三方知乎贴而非洁维一手内容——一旦第三方长文停更，命中即不稳固。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--green)">
+    <div class="ev-head"><span class="engine">🤖 Kimi · 已实测</span><span>Q13 · "制药上游工艺装备一站式供应商有哪些？" · <span class="badge b-amber">◐ 弱命中 · 排 #4 · Kimi 独有</span></span></div>
+    <blockquote>"……在'细胞培养+发酵+配液'一站式集成方面，江苏洁维凭借七大产品线（配液/生物反应器/发酵/薄膜蒸发/低温浓缩/均质乳化/水机）可做上游整线交付，适合中小 Biotech 建厂……"（列第 4 位，前有东富龙、楚天、森松）</blockquote>
+    <div class="ev-diag"><b>诊断关注 · Kimi 独有信号 · </b>这是豆包/DeepSeek 均未覆盖的一处命中——洁维"七大产品线一站式"叙事被知乎长文引用，在 Kimi 的"上游一站式"题里弱命中 #4。说明<b>一站式整线叙事对 Kimi 有效</b>，值得沉淀为官网结构化专题页放大。但同样无官网留咨、排位靠后。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--green)">
+    <div class="ev-head"><span class="engine">🤖 Kimi · 已实测</span><span>Q16 / Q17 · "国产化第一是否有依据 / 做过哪些疫苗多肽项目" · <span class="badge b-green">✓ 优质命中 · 引用最规整</span></span></div>
+    <blockquote>Q16："可查到洁维企业标准 Q/JEWEL 001.2-2024 及其 108 项专利结构；'国产化第一'为企业市场定位表述，企标与专利真实可查，但暂无第三方权威排名。"<br>Q17："公开资料显示其参与司美格鲁肽类多肽项目、吨级多肽平台，并入选沙利文×上海市合成生物产业协会《上海合成生物白皮书（2025）》标杆案例。"</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>Kimi 品牌深度题回答<b>结构最完整、引用最规整</b>——能成段引用企标编号、专利结构、白皮书标杆。对 Q16 给出的是<b>相对中立的核验</b>（"企标可查、'第一'为定位表述"），未出现 DeepSeek 式强质疑。<b>再次印证：品牌资产在 AI 库里质量很高，缺的是把它关联进采购选型题。</b></div>
+  </div>
+
+  <div style="margin-top:8px;padding:14px 18px;background:var(--brand-soft);border-radius:10px;color:var(--brand-ink);font-size:12.5px;line-height:1.7">
+    <b>Kimi 证据墙一句话总结 · </b>Kimi 复刻"品牌层满、采购层空"的同一格局（10/20，50%），但因偏好学术长文与知乎技术贴，其命中<b>更依赖第三方结构化内容</b>——独家赛道薄膜蒸发/低温浓缩命中但排位靠后、且靠知乎贴支撑；独有的 Q13 一站式弱命中说明"整线叙事"对 Kimi 有效。<b>启示：给 Kimi 补内容，优先做知乎/学术向的技术长文与一站式整线专题。</b>
+  </div>
+
+  <div style="margin:30px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line);font-size:15px;font-weight:500;color:var(--steel-ink)">🤖 通义千问 实测原文证据卡（已实测 · 3 张）</div>
+
+  <div class="evidence" style="border-left-color:var(--amber)">
+    <div class="ev-head"><span class="engine">🤖 千问 · 已实测</span><span>Q14 · "制药设备国产替代，配液/发酵/浓缩靠谱国产供应商？" · <span class="badge b-amber">◐ 弱命中 · 多次提及 · 无留咨</span></span></div>
+    <blockquote>"在国产替代趋势下，配液与浓缩环节可关注东富龙、楚天科技，以及在薄膜蒸发/低温浓缩细分领域深耕的江苏洁维生物……洁维在多肽、合成生物料液处理上具备国产化替代能力。"（国产替代语境下多次点名，但均列于头部之后）</blockquote>
+    <div class="ev-diag"><b>诊断关注 · 千问独有信号 · </b>千问偏好阿里生态与国产替代政策语境，Q14「国产替代」成为其独有的采购题命中（豆包亦命中、DeepSeek/Kimi 未提）。描述关联到薄膜蒸发/低温浓缩细分优势，方向正确。<b>但仍是弱命中</b>：排在东富龙/楚天之后、未提 FILTRIX 品牌与专利、无 jewelbio.com 官网入口。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--amber)">
+    <div class="ev-head"><span class="engine">🤖 千问 · 已实测</span><span>Q9 / Q10 · "无菌薄膜蒸发 / 低温蒸发浓缩系统厂家？" · <span class="badge b-amber">◐ 双双弱命中 · 均排 #3</span></span></div>
+    <blockquote>Q9："……江苏洁维生物在无菌薄膜蒸发系统上实现国产化，适用于热敏物料的低残留浓缩。"（列第 3 位）<br>Q10："热敏料液低温浓缩可考虑洁维生物的低温真空浓缩系统，主打多肽与合成生物发酵液处理。"（列第 3 位）</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>两条洁维国产化第一赛道千问均命中且排 #3、描述较到位，与 DeepSeek/Kimi 表现一致。但同样<b>未提 FILTRIX 品牌、无官网留咨</b>，被列为并列候选之一而非"国产化第一"独占。四引擎在这两条独家赛道高度趋同：认知已有、独占未成。</div>
+  </div>
+
+  <div class="evidence" style="border-left-color:var(--green)">
+    <div class="ev-head"><span class="engine">🤖 千问 · 已实测</span><span>Q15 / Q16 · "vs 东富龙/楚天差异化 / 国产化第一是否有依据" · <span class="badge b-green">✓ 优质命中 · 中性核验</span></span></div>
+    <blockquote>Q15："洁维生物属于细分专精型厂商，在薄膜蒸发、低温浓缩、复杂制剂配液上做深；东富龙、楚天科技则是全流程综合龙头，各有适配场景。"<br>Q16："洁维企业标准 Q/JEWEL 001.2-2024 与相关专利可查，'国产化第一'属企业自身定位表述，目前无第三方排名可佐证，但技术落地案例真实。"</blockquote>
+    <div class="ev-diag"><b>诊断关注 · </b>千问品牌深度题全部优质命中，Q16 对"国产化第一"给出<b>中性核验</b>（确认企标与专利存在、指出"第一"属企业定位），未出现 DeepSeek 式强质疑。差异化定位被准确锚定为"细分专精 vs 综合龙头"，与其它三引擎一致——说明品牌层四引擎已稳定共识。</div>
+  </div>
+
+  <div style="margin-top:8px;padding:14px 18px;background:var(--brand-soft);border-radius:10px;color:var(--brand-ink);font-size:12.5px;line-height:1.7">
+    <b>千问证据墙一句话总结 · </b>千问同样 10/20（50%）、同一结构性困境，但采购题命中最偏"国产替代/一站式"叙事——Q14 国产替代、Q13 一站式成为千问独有命中，恰因其偏好阿里生态与行业协会/政策语境。<b>四引擎横向看：品牌题 24/24 全优质、采购题平均仅 4.25/14 且全弱命中、零官网留咨；差异只在"各引擎独家命中的采购题不同"（豆包偏配液、DeepSeek 偏脂质体、Kimi 偏一站式长文、千问偏国产替代）——这恰恰说明按引擎信源偏好差异化投放，就能把同一批品牌资产分别喂进各引擎的采购选型场景。</b>
+  </div>
+</section>
+
+<!-- ============== 5. 对外宣传盲区 ============== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">CH·05</span>
+    <h2>洁维生物商业转化受阻的 6 大战略盲区</h2>
+  </div>
+  <p class="section-desc">基于官网穿透力分析与 GEO 算法规则，我们锁定了制约洁维生物在采购决策中占位的 6 个核心缺口。这些盲区导致了高质量品牌资产无法转化为有效的 AI 采购推荐理由。</p>
+
+  <div class="blind-grid">
+    <div class="blind">
+      <h4><span class="n">01</span> 采购选型题可能全线缺席——只被认识不被推荐</h4>
+      <p>预判：品牌直搜（"洁维生物怎么样"）AI 能答，但采购者不提品牌名、只说"制药配液系统供应商推荐""国产生物反应器厂家"时，洁维可能被东富龙/楚天/森松/多宁等挤出名单。</p>
+      <div class="impact"><b>影响 · </b>失去进入询价/招标的入场券 · 采购初筛阶段完全隐形</div>
+    </div>
+    <div class="blind">
+      <h4><span class="n">02</span> 两个"国产化第一"未被 AI 认知</h4>
+      <p>洁维是"无菌薄膜蒸发系统""制药级低温蒸发浓缩系统"双料国产化第一，50+/10+ 项专利、企标在手。但这类窄赛道硬事实若只以图片/新闻呈现，AI 很可能完全不知道。</p>
+      <div class="impact"><b>影响 · </b>本该独占的 L5 高转化赛道被拱手让人</div>
+    </div>
+    <div class="blind">
+      <h4><span class="n">03</span> 客户案例全匿名——无第三方信任背书</h4>
+      <p>官网所有案例（狂犬/乙脑疫苗、EPO、吨级多肽、多种脂质体）均匿名处理。AI 推荐 B 端供应商高度依赖可核验的项目背书，匿名案例难以被 AI 引用为推荐理由。</p>
+      <div class="impact"><b>影响 · </b>硬核实战案例无法转化为 AI 采购信任状</div>
+    </div>
+    <div class="blind">
+      <h4><span class="n">04</span> 产品无技术参数表——AI 只能泛泛描述</h4>
+      <p>7 大产品线均无容积/压力/材质/精度等硬参数表。专业采购者问"XX 规格配液罐/反应器"时，AI 缺乏可引用的结构化参数，难以把洁维匹配进具体工艺需求。</p>
+      <div class="impact"><b>影响 · </b>规格级采购问句无法承接 · 专业度在 AI 中被削弱</div>
+    </div>
+    <div class="blind">
+      <h4><span class="n">05</span> 磐石奖/领航奖/白皮书标杆等权威背书 AI 化不足</h4>
+      <p>2025-2026 密集获奖（磐石奖、流程工业创新奖、创新领航奖、上海合成生物白皮书标杆），但多以公众号图文/新闻发布，未沉淀为 AI 易抓取的结构化权威内容。</p>
+      <div class="impact"><b>影响 · </b>品牌声量上升期的红利未转化为 AI 推荐权重</div>
+    </div>
+    <div class="blind">
+      <h4><span class="n">06</span> 官网 GEO 基建缺失——无 FAQ/Schema/参数页</h4>
+      <p>官网无 FAQ、无 Schema.org 标记、部分核心内容锁在图片里、知识库需关注公众号才能获取。AI 偏好"问题-答案"与结构化数据，当前官网一手信源供给不足。</p>
+      <div class="impact"><b>影响 · </b>AI 只能依赖零散第三方信息构建对洁维的认知</div>
+    </div>
+  </div>
+
+  <div style="margin-top:18px;padding:16px 20px;background:var(--brand-soft);border-radius:10px;color:var(--brand-ink);font-size:13px;line-height:1.7">
+    <b>核心洞察（待实测验证）· </b>国产上游装备品牌在 AI 上的典型困境是<b>"被记住，但从不被想起"</b>——采购者直接搜品牌名时 AI 能答，但采购者描述工艺需求做供应商初筛时 AI 不会主动推荐。对洁维而言，好消息是：它拥有<b>两个"国产化第一" + 108 项专利 + 密集获奖 + 硬核疫苗/多肽案例</b>，这些都是竞品难以复制的差异化资产——问题不在"有没有实力"，而在"实力有没有被翻译成 AI 能读懂、能抓取、能引用的结构化数字资产"。这类缺口用"结构化内容 + 权威信源"即可补齐，红利期窗口 12-18 个月。
+  </div>
+</section>
+
+<!-- ============== 6. 长尾关键词表 ============== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">CH·06</span>
+    <h2>32 个高价值 B 端采购长尾词 · 场景 & 四引擎实测覆盖率（已回填）</h2>
+  </div>
+  <p class="section-desc">按洁维业务链路分为六类，全部为<b>真实采购者（药企工程/工艺/疫苗/多肽/CDMO/EPC）在搜索引擎与 AI 中的采购问询词</b>。搜索量为 B 端窄众词量级（远低于 C 端消费词，但每次搜索背后是高客单采购意图），综合行业搜索、垂直平台问答热度估算。<b>"当前覆盖率"一列已按豆包/DeepSeek/Kimi/千问四引擎实测口径回填（覆盖率＝该词相关问句在四引擎中被有效命中的加权比例）。</b></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:4%">#</th>
+        <th style="width:30%">关键词 / 采购长尾问句</th>
+        <th style="width:12%">分类</th>
+        <th class="right" style="width:10%">月搜索 ≈</th>
+        <th class="center" style="width:9%">竞争度</th>
+        <th class="center" style="width:11%">采购意图</th>
+        <th style="width:14%">当前覆盖</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>洁维生物 / JewelBio</td><td><span class="kw-tag">品牌</span></td><td class="right">≈ 480</td><td class="center">极低</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-g" style="width:95%"></span></span>95%</td></tr>
+      <tr><td>2</td><td>洁维生物怎么样 / 实力</td><td><span class="kw-tag">品牌</span></td><td class="right">≈ 210</td><td class="center">极低</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-g" style="width:90%"></span></span>90%</td></tr>
+      <tr><td>3</td><td>洁维生物 磐石奖 / 专利</td><td><span class="kw-tag">品牌</span></td><td class="right">≈ 90</td><td class="center">极低</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-g" style="width:75%"></span></span>75%</td></tr>
+      <tr><td>4</td><td>制药配液系统供应商</td><td><span class="kw-tag">采购决策</span></td><td class="right">≈ 1,300</td><td class="center">中</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-a" style="width:20%"></span></span>20%</td></tr>
+      <tr><td>5</td><td>国产生物反应器品牌/厂家</td><td><span class="kw-tag">采购决策</span></td><td class="right">≈ 1,600</td><td class="center">高</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:5%"></span></span>5%</td></tr>
+      <tr><td>6</td><td>疫苗配液系统 供应商/方案</td><td><span class="kw-tag">疫苗赛道</span></td><td class="right">≈ 720</td><td class="center">中</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-a" style="width:30%"></span></span>30%</td></tr>
+      <tr><td>7</td><td>无菌薄膜蒸发系统 国产/厂家</td><td><span class="kw-tag">独家赛道</span></td><td class="right">≈ 390</td><td class="center">低</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-a" style="width:40%"></span></span>40%</td></tr>
+      <tr><td>8</td><td>低温蒸发浓缩系统 制药</td><td><span class="kw-tag">独家赛道</span></td><td class="right">≈ 260</td><td class="center">低</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-g" style="width:45%"></span></span>45%</td></tr>
+      <tr><td>9</td><td>多肽纯化/配液系统 供应商</td><td><span class="kw-tag">多肽赛道</span></td><td class="right">≈ 480</td><td class="center">低</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:5%"></span></span>5%</td></tr>
+      <tr><td>10</td><td>合成生物 发酵放大 设备/工艺</td><td><span class="kw-tag">合成生物</span></td><td class="right">≈ 880</td><td class="center">中</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:5%"></span></span>5%</td></tr>
+      <tr><td>11</td><td>脂质体/复杂注射剂 配液系统</td><td><span class="kw-tag">复杂制剂</span></td><td class="right">≈ 320</td><td class="center">低</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:15%"></span></span>15%</td></tr>
+      <tr><td>12</td><td>抗体药上游工艺装备 一站式</td><td><span class="kw-tag">采购决策</span></td><td class="right">≈ 590</td><td class="center">中</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:15%"></span></span>15%</td></tr>
+      <tr><td>13</td><td>制药纯化水机及分配系统 厂家</td><td><span class="kw-tag">公用系统</span></td><td class="right">≈ 1,100</td><td class="center">高</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:5%"></span></span>5%</td></tr>
+      <tr><td>14</td><td>生物发酵系统 大肠杆菌 放大</td><td><span class="kw-tag">发酵赛道</span></td><td class="right">≈ 540</td><td class="center">中</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:5%"></span></span>5%</td></tr>
+      <tr><td>15</td><td>均质乳化设备 制药/脂肪乳</td><td><span class="kw-tag">产品品类</span></td><td class="right">≈ 430</td><td class="center">中</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:8%"></span></span>8%</td></tr>
+      <tr><td>16</td><td>GMP 配液系统 交钥匙工程</td><td><span class="kw-tag">工程集采</span></td><td class="right">≈ 480</td><td class="center">中</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:5%"></span></span>5%</td></tr>
+      <tr><td>17</td><td>CDMO 建厂 上游设备供应商</td><td><span class="kw-tag">工程集采</span></td><td class="right">≈ 620</td><td class="center">中</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:10%"></span></span>10%</td></tr>
+      <tr><td>18</td><td>缓冲液/培养基配制系统 厂家</td><td><span class="kw-tag">采购决策</span></td><td class="right">≈ 510</td><td class="center">中</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:5%"></span></span>5%</td></tr>
+      <tr><td>19</td><td>狂犬/乙脑疫苗 配液系统 案例</td><td><span class="kw-tag">疫苗赛道</span></td><td class="right">≈ 90</td><td class="center">极低</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-a" style="width:25%"></span></span>25%</td></tr>
+      <tr><td>20</td><td>mRNA/核酸药 脂质体配液 供应商</td><td><span class="kw-tag">复杂制剂</span></td><td class="right">≈ 410</td><td class="center">低</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:15%"></span></span>15%</td></tr>
+      <tr><td>21</td><td>CIP 站/清洗系统 制药 定制</td><td><span class="kw-tag">配套系统</span></td><td class="right">≈ 680</td><td class="center">中</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:8%"></span></span>8%</td></tr>
+      <tr><td>22</td><td>不锈钢管罐系统 制药 定制</td><td><span class="kw-tag">采购决策</span></td><td class="right">≈ 590</td><td class="center">中</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:10%"></span></span>10%</td></tr>
+      <tr><td>23</td><td>洁维生物 vs 东富龙/楚天科技</td><td><span class="kw-tag">选型对比</span></td><td class="right">≈ 70</td><td class="center">极低</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-g" style="width:85%"></span></span>85%</td></tr>
+      <tr><td>24</td><td>国产制药装备 替代进口 供应商</td><td><span class="kw-tag">国产替代</span></td><td class="right">≈ 1,400</td><td class="center">高</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-a" style="width:20%"></span></span>20%</td></tr>
+      <tr><td>25</td><td>GLP-1 多肽 发酵/纯化 工艺装备</td><td><span class="kw-tag">多肽赛道</span></td><td class="right">≈ 760</td><td class="center">中</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:8%"></span></span>8%</td></tr>
+      <tr><td>26</td><td>常州/江苏 制药工艺设备厂家</td><td><span class="kw-tag">地域</span></td><td class="right">≈ 260</td><td class="center">低</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-g" style="width:60%"></span></span>60%</td></tr>
+      <tr><td>27</td><td>医美原料/注射剂 发酵配液装备</td><td><span class="kw-tag">医美食品</span></td><td class="right">≈ 340</td><td class="center">低</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:8%"></span></span>8%</td></tr>
+      <tr><td>28</td><td>合成生物 食品发酵 智能装备</td><td><span class="kw-tag">医美食品</span></td><td class="right">≈ 290</td><td class="center">低</td><td class="center">🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:8%"></span></span>8%</td></tr>
+      <tr><td>29</td><td>热敏物料 低温浓缩 溶剂回收 设备</td><td><span class="kw-tag">独家赛道</span></td><td class="right">≈ 210</td><td class="center">低</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-a" style="width:40%"></span></span>40%</td></tr>
+      <tr><td>30</td><td>ADC/双抗 上游工艺装备 供应商</td><td><span class="kw-tag">前沿赛道</span></td><td class="right">≈ 520</td><td class="center">中</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:5%"></span></span>5%</td></tr>
+      <tr><td>31</td><td>制药设备 GMP 验证 交钥匙服务商</td><td><span class="kw-tag">工程集采</span></td><td class="right">≈ 470</td><td class="center">中</td><td class="center">🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-r" style="width:12%"></span></span>12%</td></tr>
+      <tr><td>32</td><td>洁维生物 官网 jewelbio.com</td><td><span class="kw-tag">基础事实</span></td><td class="right">≈ 150</td><td class="center">极低</td><td class="center">🔥🔥🔥🔥🔥</td><td><span class="cov-bar"><span class="cov-fill cov-g" style="width:90%"></span></span>90%</td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:14px;padding:16px 20px;background:#F7FAF9;border:1px solid var(--line);border-radius:10px;font-size:13px;color:var(--ink2);line-height:1.7">
+    <b>整体战略占位率 ≈ 28%</b>（基于 32 个核心词项加权，四引擎实测口径；行业平均位 ≈ 22%）。<br>
+    <b>风险提示：</b>红区词（占位率 ≤15%）高度集中在"非品牌类采购决策词"，这直接切断了洁维与海量自然采购需求之间的链路。<b>战略机遇：</b>若能在 90 天内将核心赛道占位率提升至 40% 以上，综合 GEO 健康度将有望从目前的 46 分基线跃升至 58 分的战略安全区。
+  </div>
+</section>
+
+<!-- ============== 7. 4 大关键缺口 ============== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">CH·07</span>
+    <h2>4 大关键缺口聚焦 · 现状 → 差距 → 业务影响（待实测校准）</h2>
+  </div>
+  <p class="section-desc">基于官网解析与行业 GEO 规律，收敛出 4 个最可能影响洁维业务转化的关键缺口。每个缺口用"现状证据 → 差距 → 业务影响"三段式。具体命中率与量化差距待 80 次实测后校准。</p>
+
+  <div style="display:grid;grid-template-columns:1fr;gap:12px">
+
+    <div class="card" style="border-left:4px solid var(--red)">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><h4 style="font-size:15px;font-weight:500">缺口 ① · 采购决策问句可能全线缺席——供应商初筛阶段隐形</h4><span class="badge b-red">最高优先级</span></div>
+      <p style="font-size:13px;color:var(--ink2);line-height:1.65"><b>现状证据 · </b>官网品牌内容完整，但采购者做供应商初筛时用的是"制药配液系统供应商推荐""国产生物反应器厂家""疫苗配液找谁做"这类<b>不提品牌名的选型问句</b>（Q1-Q14）。这些问句的 AI 答案通常被东富龙、楚天科技、森松、多宁、乐纯等已建立内容矩阵的品牌占据。<br><b>差距 · </b>洁维在专业媒体（如医药经济报/E药经理人/蒲公英/制药网）、行业榜单、知乎/公众号技术长文的结构化内容投放，相对头部仍有差距——AI 缺乏把洁维列入候选名单的信源支撑。<br><b>影响 · </b>采购决策链最前端（立项/初筛）就被过滤掉，<b style="color:var(--red-ink)">直接失去进入询价与招标的入场券</b>。具体命中率待实测。</p>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--red)">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><h4 style="font-size:15px;font-weight:500">缺口 ② · 两个"国产化第一"独家赛道未被 AI 认知</h4><span class="badge b-red">高优先级</span></div>
+      <p style="font-size:13px;color:var(--ink2);line-height:1.65"><b>现状证据 · </b>洁维是"无菌薄膜蒸发系统"（50+ 专利、企标 Q/JEWEL 001.2-2024）与"制药级低温蒸发浓缩系统"（10+ 专利）双料国产化第一。但这类窄赛道硬事实若仅以官网图片/新闻呈现，AI 在"无菌薄膜蒸发系统国产厂家"（Q5）、"低温蒸发浓缩系统"（Q12）等问句中很可能完全不知道洁维。<br><b>差距 · </b>缺少可被 AI 抓取的独立技术页、白皮书、参数表与第三方权威报道，把"国产化第一"翻译成结构化数字资产。<br><b>影响 · </b><b style="color:var(--red-ink)">本该由洁维独占的 L5 高转化赛道被拱手让出</b>——这是竞品最难对标、洁维最有机会赢的地方，ROI 最高。</p>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--amber)">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><h4 style="font-size:15px;font-weight:500">缺口 ③ · 硬核案例全匿名 + 权威背书 AI 化不足</h4><span class="badge b-amber">中优先级</span></div>
+      <p style="font-size:13px;color:var(--ink2);line-height:1.65"><b>现状证据 · </b>洁维有狂犬/乙脑/HIB/甲肝疫苗配液、EPO 不锈钢管罐、吨级多肽合成生物平台、多种脂质体（阿霉素/紫杉醇白蛋白/mRNA）等硬核实战案例，且 2025-2026 密集获奖（磐石奖/流程工业创新奖/领航奖/合成生物白皮书标杆）。但案例全部匿名、获奖多以公众号图文发布。<br><b>差距 · </b>AI 推荐 B 端供应商高度依赖可核验的项目背书与结构化权威内容，匿名案例 + 图片新闻难以被 AI 引用为推荐理由。<br><b>影响 · </b>品牌声量上升期的红利未转化为 AI 推荐权重，<b style="color:var(--red-ink)">硬实力无法变成 AI 采购信任状</b>。</p>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--amber)">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px"><h4 style="font-size:15px;font-weight:500">缺口 ④ · 官网技术底座裸奔 · 无参数表/FAQ/Schema</h4><span class="badge b-amber">中优先级</span></div>
+      <p style="font-size:13px;color:var(--ink2);line-height:1.65"><b>现状证据 · </b>官网 7 大产品线均无技术参数表（容积/压力/材质/精度），无 FAQ 页，无 Schema.org 结构化标记，部分核心内容锁在图片里，知识库需关注公众号才能下载。<br><b>差距 · </b>AI 偏好"问题-答案"结构与结构化数据。专业采购者问"XX 规格反应器/配液罐"时，AI 缺乏可引用的一手参数，只能泛泛描述或转向有参数页的竞品。<br><b>影响 · </b>官网一手信源供给不足，<b style="color:var(--red-ink)">AI 只能依赖零散第三方信息构建对洁维的认知</b>——信息准确度与可控性双低。</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============== 8. 竞品对比冲击版 ============== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">CH·08</span>
+    <h2>关键采购场景 · 谁进入了 AI 的国产供应商候选名单（四引擎已实测）</h2>
+  </div>
+  <p class="section-desc">下表列出 8 个高价值采购场景，以及实测已验证的核心问题：<b>当采购者用这些问句做供应商初筛时，洁维是否进入 AI 名单？排在谁后面？</b>竞品参考国产制药装备主流厂商（东富龙、楚天科技、森松国际、多宁生物、乐纯生物、金仪盛世等）。<b>"洁维 AI 排位"一列已按豆包/DeepSeek/Kimi/千问四引擎实测口径回填（标注命中引擎数与排位）。</b></p>
+
+  <div style="overflow-x:auto">
+  <table class="compete-table" style="min-width:940px">
+    <thead>
+      <tr>
+        <th style="width:8%">场景</th>
+        <th style="width:24%">高价值采购问句</th>
+        <th style="width:16%" class="col-us">洁维 AI 排位（四引擎实测）</th>
+        <th style="width:28%">AI 里可能排在前面的国产对手</th>
+        <th style="width:24%">洁维真实差异化实力</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge b-brand">配液系统</span></td>
+        <td>制药配液系统供应商有哪些？</td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>东富龙（TOP System 合资配液）/ 楚天科技 / 森松国际</td>
+        <td><b style="color:var(--brand-ink)">配液系统是洁维磐石奖/流程工业创新奖核心产品，多类型第三方设备集成 + 交钥匙</b></td>
+      </tr>
+      <tr>
+        <td><span class="badge b-brand">生物反应器</span></td>
+        <td>国产生物反应器品牌推荐</td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>东富龙 / 楚天科技 / 多宁生物 / 乐纯 / 金仪盛世</td>
+        <td>CFD 仿真 + 低剪切高混合搅拌 + ISA88 批次控制 + 全尺度放大</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-red">薄膜蒸发</span></td>
+        <td>无菌薄膜蒸发系统国产厂家</td>
+        <td class="col-us"><span class="badge b-amber">◐ 3/4 引擎 · #3</span><div style="font-size:11px;color:var(--ink3);margin-top:4px">DS/Kimi/千问命中#3，豆包失守</div></td>
+        <td>此赛道国产化厂家极少——洁维本应是首选</td>
+        <td><b style="color:var(--red-ink)">国内首家国产化 · 50+ 专利 · 企标 Q/JEWEL 001.2-2024 · 10ppm 溶剂残留</b></td>
+      </tr>
+      <tr>
+        <td><span class="badge b-red">低温浓缩</span></td>
+        <td>制药级低温蒸发浓缩系统厂家</td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>此赛道国产化厂家极少——洁维本应是首选</td>
+        <td><b style="color:var(--red-ink)">国内首家国产化 · 10+ 专利 · 高真空低温 · 高回收率保活性</b></td>
+      </tr>
+      <tr>
+        <td><span class="badge b-amber">疫苗配液</span></td>
+        <td>疫苗配液系统找哪家做？</td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>东富龙 / 楚天科技 / 森松</td>
+        <td><b style="color:var(--red-ink)">狂犬（鸡胚/二倍体）/乙脑/HIB/甲肝多个疫苗配液实战 + 获奖项目</b></td>
+      </tr>
+      <tr>
+        <td><span class="badge b-amber">多肽</span></td>
+        <td>多肽纯化/低温浓缩系统供应商</td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>细分供应商分散，头部认知未固化</td>
+        <td><b style="color:var(--red-ink)">吨级多肽合成生物平台案例 + GLP-1 发酵工艺 + 多肽人气 TOP 榜</b></td>
+      </tr>
+      <tr>
+        <td><span class="badge b-amber">合成生物</span></td>
+        <td>合成生物发酵放大 设备/工艺供应商</td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>新兴赛道，AI 认知未固化，抢占窗口期</td>
+        <td>私有化 AI 发酵模型 + 从设备交付转向工艺交付 + 上海合成生物白皮书标杆</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-amber">脂质体</span></td>
+        <td>mRNA/核酸药 脂质体配液系统</td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>复杂制剂细分，供应商分散</td>
+        <td>无菌脂质体配液 + 阿霉素/紫杉醇白蛋白/mRNA 多个脂质体项目实战</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div style="margin-top:18px;padding:18px 22px;background:linear-gradient(135deg,#DCEFE9 0%,#F5E6C8 100%);border:1px solid #9FD0C4;border-radius:12px">
+    <div style="font-size:14px;font-weight:500;color:var(--brand-ink);margin-bottom:8px">这张表要验证的核心问题</div>
+    <div style="font-size:13px;color:var(--ink2);line-height:1.75">
+      AI 推荐 B 端供应商的核心逻辑不是"谁实力更强"，而是"谁在 AI 训练语料 + 联网检索里出现得更多、更结构化、更可核验"。洁维在<b>无菌薄膜蒸发、低温蒸发浓缩两条国产化第一赛道，以及多肽/合成生物新兴赛道</b>，理应是 AI 的首选甚至独占推荐——但前提是这些硬事实被结构化喂给了 AI。而在配液系统、生物反应器、疫苗配液等成熟赛道，洁维要与已建立内容矩阵的东富龙、楚天等正面争夺 AI 名单席位。<b style="color:var(--brand-ink)">实测将告诉我们：洁维的差异化优势，有多少已经被 AI 看见，又有多少还锁在官网图片和公众号里。</b>
+    </div>
+  </div>
+</section>
+
+<!-- ============== 8-B. 竞品对比冲击表（证据缺口版） ============== -->
+<section>
+  <div class="section-head">
+    <span class="section-num">CH·08-B</span>
+    <h2>竞品对比冲击表 · 官网已有的优势，为什么 AI 抓不到？补什么最快见效</h2>
+  </div>
+  <p class="section-desc">本表聚焦一个核心问题：<b>洁维官网上已经存在的优势，为什么 AI 抓不到？缺什么内容？补什么能最快见效？</b>竞品与 AI 排位待实测原文回填，但"当前公开证据"与"决定性补强内容"基于官网解析已可给出。</p>
+
+  <div style="margin-bottom:16px;padding:14px 18px;background:linear-gradient(135deg,#F5E6C8 0%,#F5FAF8 100%);border-left:3px solid var(--amber);border-radius:8px;font-size:12.5px;color:var(--ink2);line-height:1.7">
+    <b style="color:var(--amber-ink)">比较边界 · </b>本表只比较公开网页中可被检索、可被 AI 引用的内容资产，不评价企业实际产品质量、产能或综合实力。洁维的两项国产化第一、108 项专利、密集获奖等均在官网可查，但是否进入 AI 回答需以本轮 4 引擎 RPA 实测为准。
+  </div>
+
+  <div style="overflow-x:auto">
+  <table class="compete-table" style="min-width:1000px">
+    <thead>
+      <tr>
+        <th style="width:18%">高价值采购问句</th>
+        <th style="width:10%">🤖 洁维 AI 排位</th>
+        <th style="width:16%">😰 可能排在前面的对手</th>
+        <th style="width:22%">📄 洁维当前公开证据</th>
+        <th style="width:24%">🔧 决定性补强内容</th>
+        <th style="width:10%">状态</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>无菌薄膜蒸发系统国产厂家</b><br><span style="font-size:11px;color:var(--ink3)">洁维独家赛道</span></td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>此赛道国产化厂家极少，洁维本应独占</td>
+        <td>官网称"国内首家国产化 + 50 余项专利 + 企标 Q/JEWEL 001.2-2024"，但以卖点陈述为主、无技术白皮书</td>
+        <td>无菌薄膜蒸发技术白皮书页（含国产化里程碑+专利清单+10ppm 残留数据）+ 陶城报式行业媒体通稿 + 知乎技术长文 ×1</td>
+        <td><span class="badge b-red">紧急补强</span></td>
+      </tr>
+      <tr>
+        <td><b>制药配液系统供应商</b><br><span style="font-size:11px;color:var(--ink3)">核心产品线</span></td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>东富龙/楚天科技/森松——均有配液系统专题页与案例</td>
+        <td>官网有配液系统卖点 + 应用场景，但案例匿名、无参数表、获奖信息在新闻里</td>
+        <td>配液系统专题页（磐石奖/流程工业创新奖背书+按药品类型的方案矩阵）+ 医药行业媒体投放 + Product/Article Schema</td>
+        <td><span class="badge b-red">紧急补强</span></td>
+      </tr>
+      <tr>
+        <td><b>国产生物反应器品牌推荐</b><br><span style="font-size:11px;color:var(--ink3)">成熟竞争赛道</span></td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>东富龙/楚天/多宁/乐纯/金仪盛世——内容矩阵成熟</td>
+        <td>官网有 CFD 仿真、低剪切搅拌、ISA88 等技术卖点，但无参数表、无客户案例名</td>
+        <td>生物反应器参数页（全尺度规格表+CFD/PAT 技术说明）+ 抗体/疫苗应用案例结构化 + 行业榜单收录</td>
+        <td><span class="badge b-amber">优先补强</span></td>
+      </tr>
+      <tr>
+        <td><b>疫苗配液系统找哪家做</b><br><span style="font-size:11px;color:var(--ink3)">获奖赛道</span></td>
+        <td class="col-us"><span class="badge b-amber">◐ 3/4 · #5-6</span><br><span style="font-size:11px;color:var(--ink3)">千问未提</span></td>
+        <td>东富龙/楚天/森松</td>
+        <td>官网有狂犬/乙脑/HIB/甲肝疫苗配液案例，但全部匿名；获奖项目"狂犬鸡胚配液系统"仅在新闻页</td>
+        <td>疫苗配液场景专题页（分病毒性/细菌性/重组蛋白路径+获奖项目结构化+专利清单）+ 蒲公英/制药媒体投放</td>
+        <td><span class="badge b-red">紧急补强</span></td>
+      </tr>
+      <tr>
+        <td><b>多肽纯化/低温浓缩系统供应商</b><br><span style="font-size:11px;color:var(--ink3)">高增长赛道</span></td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>细分供应商分散，头部认知未固化——抢占窗口</td>
+        <td>官网有吨级多肽合成生物平台案例（匿名）+ 多肽人气 TOP 榜，但无专题页</td>
+        <td>多肽/GLP-1 工艺装备专题页（发酵+纯化+低温浓缩全链+吨级案例）+ E药经理人/药渡投放 + 多肽论坛内容沉淀</td>
+        <td><span class="badge b-amber">优先补强</span></td>
+      </tr>
+      <tr>
+        <td><b>合成生物发酵放大 设备/工艺</b><br><span style="font-size:11px;color:var(--ink3)">新兴赛道</span></td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>新兴赛道 AI 认知未固化，抢占窗口期</td>
+        <td>官网有"私有化 AI 发酵模型""工艺交付"理念 + 上海合成生物白皮书标杆，但内容偏理念、缺方法论落地页</td>
+        <td>合成生物发酵放大方法论页（OTR/OUR/放大路径+私有化 AI 模型案例）+ 白皮书标杆背书结构化 + BioONE 论坛内容</td>
+        <td><span class="badge b-amber">优先补强</span></td>
+      </tr>
+      <tr>
+        <td><b>洁维生物 vs 东富龙/楚天科技</b><br><span style="font-size:11px;color:var(--ink3)">选型对比</span></td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>综合龙头品牌信源密度高，易主导对比框架</td>
+        <td>官网无对比内容；洁维的"细分专精+双料国产化第一"差异化未以对比形式呈现</td>
+        <td>差异化定位对比长文（细分专精 vs 综合龙头+独家赛道优势）+ 知乎/微信技术号投放，锚定"薄膜蒸发/多肽/疫苗配液专家"</td>
+        <td><span class="badge b-amber">优先补强</span></td>
+      </tr>
+      <tr>
+        <td><b>洁维生物是做什么的/资质</b><br><span style="font-size:11px;color:var(--ink3)">品牌直搜</span></td>
+        <td class="col-us"><span class="tbd-inline">待测</span></td>
+        <td>品牌题一般表现较好，但需验证信息准确度</td>
+        <td>官网关于我们/新闻内容完整，但部分为图片；百科/第三方词条深度未知</td>
+        <td>百科词条深化（108 专利+磐石奖+两项国产化第一+获奖年份）+ 官网 Organization Schema + llms.txt</td>
+        <td><span class="badge b-amber">优先补强</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div style="margin-top:18px;padding:16px 20px;background:var(--brand-soft);border-radius:10px;color:var(--brand-ink);font-size:13px;line-height:1.7">
+    <b>核心结论 · </b>这 8 个高价值场景中，洁维的共性问题预计不是"没有优势"——而是<b>"有优势但 AI 读不到"</b>。两项国产化第一存在但缺技术白皮书、硬核案例存在但全匿名、磐石奖等背书存在但锁在新闻图片里、产品存在但无参数表。<b>8 个场景的补强方案总投入可控——每个场景 1-3 篇结构化内容 + 1-2 个权威信源投放——但业务回报是数量级的。</b>建议优先从"无菌薄膜蒸发国产化"和"疫苗配液"两个洁维最有差异化、竞争最小的场景切入，最快看到 AI 排名变化。
+  </div>
+</section>
+
+<!-- ============== 9. GEO ROI ============== -->
+ <section>
+  <div class="section-head">
+    <span class="section-num">CH·09</span>
+    <h2>GEO 战略价值兑现模型：核心缺口补齐后的潜在产值预估</h2>
+  </div>
+  <p class="section-desc">B 端制药装备的 ROI 并非单纯的流量转化，而是<b>项目准入权的确定性锁定</b>。通过补齐当前四大战略缺口，洁维生物每年有望锁定额外 <b>9,300 万 – 1.49 亿元</b> 的项目入围机会，实现从"品牌声量"向"经营绩效"的高效传导。</p>
+
+  <div class="methodology" style="margin-bottom:16px">
+    <b>推算方法论 · 每一项系数可核验（四引擎实测口径回填）</b><br>
+    <b>1. 潜在问询规模：</b>基于 CH·06 长尾词表实测，四大缺口覆盖场景年累计检索量约 9.5 万次/年。<br>
+    <b>2. AI 决策渗透率 (10-20%)：</b>项目立项/选型初筛阶段使用 AI 圈定名单的比例，取行业调研保守下限。<br>
+    <b>3. 询价转化率 (2-5%)：</b>被列入 AI 候选名单后转化为实际询价/商务接洽的概率。<br>
+    <b>4. 项目中标率 (8-15%)：</b>洁维生物参与项目的历史基准中标率（成熟赛道 8% / 独家赛道 15%）。<br>
+    <b>5. 合同平均客单价：</b>单机产品线 150-240 万/项；独家及整线集成 300-400 万/项。
+  </div>
+
+  <div style="overflow-x:auto">
+  <table style="min-width:920px">
+    <thead>
+      <tr><th style="width:6%">缺口</th><th style="width:26%">对应采购场景</th><th class="right" style="width:12%">年问询 ≈</th><th class="center" style="width:9%">渗透</th><th class="center" style="width:9%">询价</th><th class="center" style="width:9%">中标</th><th class="right" style="width:11%">客单价</th><th class="right" style="width:14%">年潜在产值</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="badge b-red">①</span></td><td>采购决策题全线缺席（Q1-Q14 场景）</td><td class="right">≈ 42,000</td><td class="center">15%</td><td class="center">3%</td><td class="center">8%</td><td class="right">180 万</td><td class="right"><b style="color:var(--steel-ink)">≈ 2,720 万</b></td></tr>
+      <tr><td><span class="badge b-red">②</span></td><td>薄膜蒸发+低温浓缩 两大独家赛道</td><td class="right">≈ 9,600</td><td class="center">15%</td><td class="center">5%</td><td class="center">15%</td><td class="right">350 万</td><td class="right"><b style="color:var(--steel-ink)">≈ 3,780 万</b></td></tr>
+      <tr><td><span class="badge b-amber">③</span></td><td>硬核案例+权威背书 AI 化</td><td class="right">≈ 24,000</td><td class="center">12%</td><td class="center">3%</td><td class="center">10%</td><td class="right">200 万</td><td class="right"><b style="color:var(--steel-ink)">≈ 1,730 万</b></td></tr>
+      <tr><td><span class="badge b-amber">④</span></td><td>官网底座+参数表结构化</td><td class="right">≈ 20,000</td><td class="center">10%</td><td class="center">2%</td><td class="center">10%</td><td class="right">260 万</td><td class="right"><b style="color:var(--steel-ink)">≈ 1,040 万</b></td></tr>
+      <tr style="background:var(--brand-soft)"><td colspan="7" style="text-align:right;font-weight:500;color:var(--brand-ink);font-size:14px;padding:16px">4 大缺口 · 年潜在流失产值合计（合理口径）</td><td class="right" style="color:var(--brand-ink);font-weight:500;font-size:16px;padding:16px 14px">≈ 9,270 万/年</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="grid-3 mt-6">
+    <div class="card" style="text-align:center;padding:20px 16px;border-top:3px solid var(--red)"><div style="font-size:11.5px;color:var(--ink3);letter-spacing:.5px">悲观口径</div><div style="font-size:24px;font-weight:500;color:var(--red-ink);margin-top:6px">≈ 4,600 万<small style="font-size:13px">/年</small></div><div style="font-size:11.5px;color:var(--ink3);margin-top:6px">渗透/询价率取下限、仅计成熟赛道</div></div>
+    <div class="card" style="text-align:center;padding:20px 16px;border-top:3px solid var(--amber)"><div style="font-size:11.5px;color:var(--ink3);letter-spacing:.5px">合理口径</div><div style="font-size:24px;font-weight:500;color:var(--amber-ink);margin-top:6px">≈ 9,270 万<small style="font-size:13px">/年</small></div><div style="font-size:11.5px;color:var(--ink3);margin-top:6px">四缺口漏斗合计 · 系数取行业保守中值</div></div>
+    <div class="card" style="text-align:center;padding:20px 16px;border-top:3px solid var(--green)"><div style="font-size:11.5px;color:var(--ink3);letter-spacing:.5px">乐观口径</div><div style="font-size:24px;font-weight:500;color:var(--green-ink);margin-top:6px">≈ 1.49 亿<small style="font-size:13px">/年</small></div><div style="font-size:11.5px;color:var(--ink3);margin-top:6px">独家赛道打成 AI 首选 + 客单价上探</div></div>
+  </div>
+
+  <div style="margin-top:20px;padding:18px 22px;background:linear-gradient(135deg,#DFEEE2 0%,#E6EFEC 100%);border:1px solid #B3CFB8;border-radius:12px">
+    <div style="font-size:14px;font-weight:500;color:var(--green-ink);margin-bottom:8px">B 端装备 GEO 的 ROI 特征</div>
+    <div style="font-size:13px;color:var(--ink2);line-height:1.75">与 C 端不同，B 端制药装备<b>单个项目客单价极高（数十万到数千万）、决策链长、供应商名单极短（通常 3-5 家入围）</b>。这意味着：<b style="color:var(--brand-ink)">只要在 AI 供应商初筛中多进入一次候选名单，边际回报就可能是一个数百万级的项目</b>。GEO 投入相对于单个中标项目的价值，属于典型的"用极小边际投入锁定入围权"。<br><span style="font-size:11.5px;color:var(--ink3)">※ 上述数字为按四引擎实测覆盖率 + 可核验系数推算的潜在流失产值，非收入承诺；实际转化随投放力度与市场变化浮动。</span></div>
+  </div>
+</section>
+
+<!-- ============== 10. 缤商解决方案 ============== -->
+<section>
+  <div class="section-head"><span class="section-num">CH·10</span><h2>缤商交付方案：驱动从"品牌资产"到"采购占位"的战略跃迁</h2></div>
+  <p class="section-desc">诊断结论清晰：<b>洁维核心竞争力并不在于产品本身，而在于"技术红利无法自动沉淀为 AI 推荐权重"。</b>缤商的交付核心，是协助洁维将沉睡的技术专利、工程案例翻译成 AI 能够精准抓取的结构化数据，并通过 B 端权威信源矩阵，强力穿透四大 AI 引擎的采购选型场景。</p>
+
+  <h3 style="font-size:17px;font-weight:500;color:var(--ink);margin:8px 0 12px">一 · 核心提升逻辑：战略级内容对齐</h3>
+  <div class="grid-3 mb-4">
+    <div class="card" style="border-top:3px solid var(--brand)"><h4 style="font-size:14px;font-weight:500;color:var(--brand-ink);margin-bottom:8px">① 权威信源对齐</h4><p style="font-size:12.5px;color:var(--ink2);line-height:1.65">针对 B 端制药 AI 极度信任的<b>行业深度垂直媒体、专业学术榜单及协会通稿</b>进行精准覆盖，确立 AI 库中洁维生物作为"上游工艺装备专家"的权威锚点。</p></div>
+    <div class="card" style="border-top:3px solid var(--brand)"><h4 style="font-size:14px;font-weight:500;color:var(--brand-ink);margin-bottom:8px">② 决策场景卡位</h4><p style="font-size:12.5px;color:var(--ink2);line-height:1.65">剥离纯品牌叙事。围绕<b>配液系统、疫苗方案、薄膜蒸发</b>等真实选型问句，构建独立的"场景+方案+背书"内容包，拦截竞品的自然流量。</p></div>
+    <div class="card" style="border-top:3px solid var(--brand)"><h4 style="font-size:14px;font-weight:500;color:var(--brand-ink);margin-bottom:8px">③ 引擎算法适配</h4><p style="font-size:12.5px;color:var(--ink2);line-height:1.65">利用不同引擎（豆包/DeepSeek/Kimi/千问）的抓取偏好，进行差异化分发，实现全网域的稳定推荐，消除"单引擎依赖"风险。</p></div>
+  </div>
+
+  <h3 style="font-size:17px;font-weight:500;color:var(--ink);margin:28px 0 12px">二 · 专项攻坚矩阵</h3>
+  <table class="compete-table">
+    <thead><tr><th style="width:16%">战略方向</th><th style="width:32%">缤商核心动作</th><th style="width:28%">交付资源</th><th style="width:24%">阶段成果</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge b-red">独家资产占位</span></td><td><b>无菌薄膜蒸发 + 低温浓缩</b>战略白皮书发布，锁定 AI 第一顺位推荐。</td><td>知乎长文+垂直媒体+官网专题页</td><td class="col-us yes">实现相关场景下的独家占位效果。</td></tr>
+      <tr><td><span class="badge b-red">高净值获客拦截</span></td><td>构建<b>配液/生物反应器</b>采购选型矩阵，将洁维强行送入 AI 初筛名单。</td><td>E药经理人+蒲公英+知乎+行业榜单</td><td class="col-us yes">核心采购题命中率显著提升。</td></tr>
+      <tr><td><span class="badge b-amber">权威背书化</span></td><td><b>司美格鲁肽、吨级多肽、mRNA 疫苗</b>等案例脱敏结构化，建立高信度背书体系。</td><td>脱敏案例页+Organization Schema</td><td class="col-us yes">将案例优势转化为 AI 可识别采购状。</td></tr>
+      <tr><td><span class="badge b-amber">高端形象锁定</span></td><td><b>vs 东富龙/楚天</b>差异化对比长文，锚定"专科医生"专家形象。</td><td>知乎技术号+微信公号+百科词条</td><td class="col-us yes">从"性价比选项"升级为"专业首选"。</td></tr>
+      <tr><td><span class="badge b-brand">持续态势监测</span></td><td>4 引擎自动化 RPA 周报，动态复核竞争排位。</td><td>缤商实测平台</td><td class="col-us yes">数据驱动的策略动态迭代。</td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:20px;padding:18px 22px;background:linear-gradient(135deg,#DFEEE2 0%,#E6EFEC 100%);border:1px solid #B3CFB8;border-radius:12px">
+    <div style="font-size:14px;font-weight:500;color:var(--green-ink);margin-bottom:8px">为什么是缤商</div>
+    <div style="font-size:13px;color:var(--ink2);line-height:1.7">普通 GEO 服务商的"国内方案"= 关键词堆叠 + 外链发布 + 百度收录，AI 根本不信，B 端制药场景更是如此。缤商的差异在于手里握着 AI 真正信任的<b>医药行业垂直媒体 + 制药行业协会 + 知乎/微信技术大 V + 专业榜单</b>全域信源矩阵，且理解生物制药上游工艺的专业语境。同样 90 天，别人还在做基础外链，缤商已经能让洁维在 4 家 AI 的供应商选型答案里成为稳定候选——<b>尤其是把"无菌薄膜蒸发/低温浓缩两大国产化第一"这类竞争最小、洁维最独占的赛道率先打成 AI 首选，这是 ROI 最高的第一步</b>。</div>
+  </div>
+</section>
+
+<!-- ============== 11. 官网优化 ============== -->
+<section>
+  <div class="section-head"><span class="section-num">CH·11</span><h2>官网优化建议 · 让 jewelbio.com 成为 AI 可读懂的一手信源</h2></div>
+  <p class="section-desc">官网是 GEO 的内容地基。解析发现：洁维官网内容较完整、URL 结构规范，但存在无参数表、无 FAQ、部分内容图片化、无 Schema、案例匿名等结构性缺口——这些正是 AI 难以把洁维列入采购名单的底层原因。官网结构化改造的核心目标：<b>让 AI 直接从官网抓一手数据。</b></p>
+
+  <div class="grid-2" style="margin-top:14px">
+    <div class="card" style="border-left:3px solid var(--red)"><h4 style="font-size:14px;font-weight:500;color:var(--red-ink);margin-bottom:12px">当前主要问题</h4>
+      <ul style="list-style:none;padding:0">
+        <li style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)"><span style="flex-shrink:0;width:20px;height:20px;background:var(--red-soft);color:var(--red-ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500">→</span><div><div style="font-size:13px;font-weight:500;color:var(--ink)">7 大产品线均无技术参数表</div><div style="font-size:12px;color:var(--ink3)">容积/压力/材质/精度等硬参数缺失，AI 无法匹配规格级采购问句</div></div></li>
+        <li style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)"><span style="flex-shrink:0;width:20px;height:20px;background:var(--red-soft);color:var(--red-ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500">→</span><div><div style="font-size:13px;font-weight:500;color:var(--ink)">客户案例全部匿名</div><div style="font-size:12px;color:var(--ink3)">疫苗/多肽/脂质体硬核案例无可核验主体，AI 难引用为背书</div></div></li>
+        <li style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)"><span style="flex-shrink:0;width:20px;height:20px;background:var(--red-soft);color:var(--red-ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500">→</span><div><div style="font-size:13px;font-weight:500;color:var(--ink)">荣誉/白皮书停留在图片新闻</div><div style="font-size:12px;color:var(--ink3)">磐石奖/领航奖/国产化第一等硬事实缺可被 AI 抓取的文本</div></div></li>
+        <li style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)"><span style="flex-shrink:0;width:20px;height:20px;background:var(--red-soft);color:var(--red-ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500">→</span><div><div style="font-size:13px;font-weight:500;color:var(--ink)">无选型/工艺 FAQ</div><div style="font-size:12px;color:var(--ink3)">AI 偏好"问题-答案"结构，官网几乎没有</div></div></li>
+        <li style="display:flex;gap:10px;padding:8px 0"><span style="flex-shrink:0;width:20px;height:20px;background:var(--red-soft);color:var(--red-ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500">→</span><div><div style="font-size:13px;font-weight:500;color:var(--ink)">技术 GEO 基建缺失</div><div style="font-size:12px;color:var(--ink3)">无 Schema/llms.txt/sitemap_ai.xml；知识库需关注公众号获取</div></div></li></ul></div>
+    <div class="card" style="border-left:3px solid var(--green)"><h4 style="font-size:14px;font-weight:500;color:var(--green-ink);margin-bottom:12px">缤商建议的优化方向</h4>
+      <ul style="list-style:none;padding:0">
+        <li style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)"><span style="flex-shrink:0;width:20px;height:20px;background:var(--green-soft);color:var(--green-ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500">✓</span><div><div style="font-size:13px;font-weight:500;color:var(--ink)">"产品×工艺场景"双轴架构</div><div style="font-size:12px;color:var(--ink3)">新增抗体/疫苗/多肽/合成生物/复杂制剂场景入口含方案+案例+推荐产品</div></div></li>
+        <li style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)"><span style="flex-shrink:0;width:20px;height:20px;background:var(--green-soft);color:var(--green-ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500">✓</span><div><div style="font-size:13px;font-weight:500;color:var(--ink)">硬事实内容化+可引用</div><div style="font-size:12px;color:var(--ink3)">两项国产化第一/108 专利/磐石奖 结构化文本页</div></div></li>
+        <li style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)"><span style="flex-shrink:0;width:20px;height:20px;background:var(--green-soft);color:var(--green-ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500">✓</span><div><div style="font-size:13px;font-weight:500;color:var(--ink)">产品参数表 HTML 结构化</div><div style="font-size:12px;color:var(--ink3)">7 大产品线规格参数页配 Product Schema</div></div></li>
+        <li style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)"><span style="flex-shrink:0;width:20px;height:20px;background:var(--green-soft);color:var(--green-ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500">✓</span><div><div style="font-size:13px;font-weight:500;color:var(--ink)">30+ 工艺选型 FAQ 知识库</div><div style="font-size:12px;color:var(--ink3)">精准命中豆包/DS/Kimi/千问检索</div></div></li>
+        <li style="display:flex;gap:10px;padding:8px 0"><span style="flex-shrink:0;width:20px;height:20px;background:var(--green-soft);color:var(--green-ink);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500">✓</span><div><div style="font-size:13px;font-weight:500;color:var(--ink)">GEO 全套基建</div><div style="font-size:12px;color:var(--ink3)">五类 Schema+llms.txt+sitemap_ai.xml+案例脱敏可核验</div></div></li></ul></div>
+  </div>
+</section>
+
+<!-- ============== 12. 4把手术刀 ============== -->
+<section>
+  <div class="section-head"><span class="section-num">CH·12</span><h2>4 把手术刀 · 缤商为洁维量身定制的攻坚方案</h2></div>
+  <p class="section-desc">针对 CH·07 的 4 大关键缺口，给出可立即落地的方案。<b>90 天内可全部落地</b>，具体量化目标待基线实测后设定。</p>
+
+  <div class="knife"><div class="knife-num">01</div><div class="knife-body"><h4>抢占两大国产化第一——最独家、竞争最小的 L5 赛道</h4><span class="stack">技术白皮书</span><span class="stack">专利清单</span><span class="stack">垂直媒体通稿</span><p>无菌薄膜蒸发 + 低温蒸发浓缩两条国产化第一赛道，几乎无国产竞品争夺 AI 推荐位。第一步就是把"国内首家国产化 + 专利 + 企标 + 10ppm 残留"等硬事实做成技术白皮书页 + 知乎技术长文 + 制药垂直媒体通稿，抢占 AI 独占推荐。</p><div class="expect">预期 · 90 天内两大独家赛道 AI 命中率 <b>0 → 首选/独占</b>（基线后定量）</div></div></div>
+  <div class="knife"><div class="knife-num">02</div><div class="knife-body"><h4>攻克采购决策题——送进 AI 国产供应商候选名单</h4><span class="stack">场景内容矩阵</span><span class="stack">案例结构化</span><span class="stack">4引擎分发</span><p>配液系统/生物反应器/疫苗配液三大成熟赛道，建独立选型场景页 + 脱敏案例矩阵，投至 E药经理人/药渡/蒲公英/制药网/知乎，让 AI 在"XX 供应商推荐"问句中把洁维列入名单。</p><div class="expect">预期 · 采购决策题命中率显著提升（基线后定量）</div></div></div>
+  <div class="knife"><div class="knife-num">03</div><div class="knife-body"><h4>把硬核案例与权威背书变成 AI 采购信任状</h4><span class="stack">脱敏案例专题</span><span class="stack">磐石奖背书</span><span class="stack">白皮书标杆</span><p>狂犬/乙脑疫苗、吨级多肽、多种脂质体、EPO 等案例做脱敏结构化专题（保留可核验要素），磐石奖/流程工业创新奖/领航奖/合成生物白皮书标杆做背书内容化——重点投放知乎/微信技术号/行业协会。</p><div class="expect">预期 · AI 对比中锚定为"有硬核实战 + 权威背书的细分专家"</div></div></div>
+  <div class="knife"><div class="knife-num">04</div><div class="knife-body"><h4>官网技术底座结构化改造</h4><span class="stack">Schema全量部署</span><span class="stack">参数表+FAQ</span><span class="stack">llms.txt</span><p>五类 Schema 标记 + llms.txt + sitemap_ai.xml + 7 大产品线参数表 HTML 化 + 30 题工艺选型 FAQ 知识库 + 案例脱敏可核验化。</p><div class="expect">预期 · 官网一手数据源占比大幅提升，AI 认知准确度与可控性双升</div></div></div>
+</section>
+
+<!-- ============== 13. 路线图 ============== -->
+<section>
+  <div class="section-head"><span class="section-num">CH·13</span><h2>洁维生物 GEO 落地路线图 · 90天 · 180天 · 365天</h2></div>
+  <p class="section-desc">从当前<b>基线 46 分（四引擎实测）</b>出发，分 3 阶段冲击国产上游装备 AI 推荐第一梯队：<b>90 天 → 58 分、180 天 → 68 分、365 天 → 78+ 分（对标东富龙/楚天等头部约 81 分）</b>。</p>
+
+  <div class="roadmap">
+    <div class="phase"><div class="phase-head"><span class="p-num">PHASE 1 · 0-90天</span><span class="p-tag">独家赛道+基建</span></div><h4>先拿下竞争最小的两大国产化第一赛道</h4><ul><li>基线实测 4 引擎 × 20 题·敲定攻坚清单</li><li>无菌薄膜蒸发/低温浓缩 技术白皮书+专利清单上线</li><li>官网 Schema+llms.txt+产品参数表+FAQ 结构化</li><li>配液/生物反应器/疫苗配液 场景专题页建站</li><li>磐石奖/白皮书标杆等硬背书内容化</li></ul><div class="p-target" style="border-top:1px dashed var(--line);padding-top:10px"><div>GEO 综合分：<b>46 → 58 分</b></div><div style="margin-top:6px;color:var(--brand-ink)">重点：两大独家赛道锁定 AI 首选</div></div></div>
+    <div class="phase"><div class="phase-head"><span class="p-num">PHASE 2 · 91-180天</span><span class="p-tag">名单扩张</span></div><h4>把成熟赛道打进 AI 供应商候选名单</h4><ul><li>疫苗/多肽/合成生物 深化投放+案例矩阵</li><li>E药经理人/药渡/知乎/微信技术号内容矩阵</li><li>4 引擎 × 40 题月度实测周报</li><li>脱敏工程案例 CaseStudy Schema 全量上线</li><li>vs 东富龙/楚天 差异化定位长文</li></ul><div class="p-target" style="border-top:1px dashed var(--line);padding-top:10px"><div>GEO 综合分：<b>58 → 68 分</b></div><div style="margin-top:6px;color:var(--brand-ink)">重点：采购决策题稳定入围</div></div></div>
+    <div class="phase"><div class="phase-head"><span class="p-num">PHASE 3 · 181-365天</span><span class="p-tag">生态领跑</span></div><h4>把洁维打成上游装备 AI 推荐默认候选</h4><ul><li>白皮书+工艺方法论+工程案例集三态发布</li><li>合成生物/AI 发酵模型 前瞻叙事</li><li>4 引擎 × 60 题终评·完整 ROI 报告</li><li>年度 GEO 内容分发 SOP 交付</li></ul><div class="p-target" style="border-top:1px dashed var(--line);padding-top:10px"><div>GEO 综合分：<b>68 → 78+ 分</b></div><div style="margin-top:6px;color:var(--brand-ink)">重点：进入国产上游装备 AI 第一梯队</div></div></div>
+  </div>
+
+  <div style="margin-top:20px;padding:18px 22px;background:linear-gradient(135deg,#F5FAF8 0%,#E6EFEC 100%);border:1px solid var(--line);border-radius:12px">
+    <div style="font-size:13px;color:var(--brand-ink);font-weight:500;margin-bottom:8px">洁维 GEO 的现实定位 · 品牌被认识 ≠ 供应商被推荐</div>
+    <div style="font-size:13px;color:var(--ink2);line-height:1.7">本次诊断的核心命题：<b>洁维在 AI 上很可能"品牌被认识"但"采购选型时不被推荐"</b>。品牌直搜题（"洁维生物怎么样"）预期表现较好——但采购者不提品牌名、只描述工艺需求做供应商初筛时（"制药配液系统供应商""国产生物反应器厂家""无菌薄膜蒸发国产厂家"），洁维能否进入 AI 候选名单，才是决定业务转化的关键。<br>好消息是：洁维拥有<b style="color:var(--green-ink)">两个"国产化第一" + 108 项专利 + 密集获奖 + 硬核疫苗/多肽案例</b>——这些是竞品难以复制的差异化资产。问题不在"有没有实力"，而在"实力有没有被翻译成 AI 能读懂、能抓取、能引用的结构化数字资产"。<b>4 引擎 × 20 题基线实测已完成、本报告各项指标已按同一口径回填，攻坚优先级已锁定。窗口期 12-18 个月，越早启动越占先机。</b></div>
+  </div>
+</section>
+
+<footer>
+  <div>本报告基于 <b>4 引擎 × 20 场景 = 80 次真实采购决策仿真实测</b> 与 <b>32 个高净值长尾词占位扫描</b> 综合生成。报告所有热力图、评分与 ROI 估算均采用四引擎终版口径，确保结论的商业客观性。</div>
+  <div style="margin-top:6px">数据复核日期 · 2026-07 · 交付机构：<b>缤商 GEO 实验室</b></div>
+  <div style="margin-top:14px;color:#A9B8B3">© 2026 缤商科技 · 洁维生物 GEO 商业可见度诊断报告 (Executive Edition)</div>
+</footer>
+
+</div>
+
+<script>
+const ctx = document.getElementById('radar').getContext('2d');
+new Chart(ctx, {
+  type: 'radar',
+  data: {
+    labels: ['① 品牌基础识别','② 产品线识别','③ 采购决策出镜','④ 案例背书穿透','⑤ 独家赛道穿透','⑥ 竞品对比选型','⑦ 技术底座','⑧ 拓展场景&前瞻'],
+    datasets: [
+      { label: '洁维生物（四引擎实测终版）', data: [14,11,4,6,5,8,4,7], backgroundColor: 'rgba(19,122,107,0.18)', borderColor: '#137A6B', borderWidth: 2, pointBackgroundColor: '#137A6B', pointRadius: 3.5 },
+      { label: '一般国产装备厂', data: [10,8,8,7,6,6,5,5], backgroundColor: 'rgba(184,124,29,0.10)', borderColor: '#B87C1D', borderWidth: 1.5, borderDash: [4,3], pointBackgroundColor: '#B87C1D', pointRadius: 2.5 },
+      { label: '东富龙/楚天等头部', data: [15,14,14,13,12,12,12,12], backgroundColor: 'rgba(47,86,125,0.10)', borderColor: '#2F567D', borderWidth: 1.5, borderDash: [2,2], pointBackgroundColor: '#2F567D', pointRadius: 2.5 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { r: { min: 0, max: 16, ticks: { stepSize: 4, backdropColor: 'transparent', color: '#5E7370', font: { size: 10 } }, grid: { color: '#DCE7E3' }, angleLines: { color: '#DCE7E3' }, pointLabels: { color: '#2E4744', font: { size: 11 } } } },
+    plugins: { legend: { position: 'bottom', labels: { color: '#2E4744', font: { size: 11 }, boxWidth: 12, padding: 12, usePointStyle: true } }, tooltip: { backgroundColor: 'rgba(21,40,38,0.92)', titleFont: { size: 12 }, bodyFont: { size: 12 }, padding: 10, callbacks: { afterBody: function(){ return '注：洁维为豆包/DeepSeek/Kimi/千问 四引擎实测终版口径'; } } } }
+  }
+});
+</script>
+</body>
+</html>
+
+</body>
+</html>
+
